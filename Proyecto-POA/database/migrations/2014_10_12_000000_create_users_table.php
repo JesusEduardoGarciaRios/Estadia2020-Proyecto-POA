@@ -17,6 +17,7 @@ class CreateUsersTable extends Migration
             $table->bigIncrements('id');
             $table->enum('rol',['Administrador','Trabajador']);
             $table->string('nombre');
+            $table->string('alias');
             $table->string('email');
             $table->string('password');
             $table->timestamps();

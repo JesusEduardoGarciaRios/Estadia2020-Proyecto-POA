@@ -47,7 +47,7 @@
                         <div class="navbar info">
                             <a class="d-block">
                             <i class="fas fa-cog fa-spin fa-lg"></i>
-                            {{ Auth::user()->email }}
+                            {{ Auth::user()->alias }}
                             </a>
                         </div>
                     @endif
@@ -59,7 +59,7 @@
             <aside class="main-sidebar sidebar-dark-secondary elevation-4">
                 <!-- Brand Logo -->
                 <a href="#" class="brand-link">
-                <img src="img/AdminLTELogo.png" alt="UPV Logo" class="brand-image img-circle elevation-2"
+                <img src="img/upvlogo1.png" alt="UPV Logo" class="brand-image img-circle elevation-2"
                     style="opacity: .8">
                 <span class="brand-text font-weight-light">UPV POA</span>
                 </a>

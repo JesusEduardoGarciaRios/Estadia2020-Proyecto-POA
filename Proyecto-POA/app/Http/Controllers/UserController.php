@@ -8,12 +8,12 @@ use App\Models\User;
 
 class UserController extends Controller
 {
-    //Función que muestra el contenido del data table
+    // Función que muestra el contenido del data table
     public function index(Request $request)
     {
-        // if(!$request->ajax()) return redirect('/');
-        $users = User::select('users.id', 'users.rol', 'users.nombre', 'users.email', 'users.password')
-                        ->where('users.rol', 'Administrador')
+        if(!$request->ajax()) return redirect('/');
+        $users = User::select('users.id', 'users.rol', 'users.nombre', 'users.alias', 'users.email', 'users.password')
+                        ->where('users.rol', 'Trabajador')
                         ->orderBy('users.id', 'desc')->paginate(2);
         return [
             'pagination' => [
@@ -28,30 +28,32 @@ class UserController extends Controller
         ];
     }
 
-    //Función que contiene la lógica para almacenar un usuario
+    // Función que contiene la lógica para almacenar un usuario
     public function store(Request $request)
     {   
         if(!$request->ajax()) return redirect('/');
         $user = new User();
-        $user->rol = 'Administrador';
+        $user->rol = 'Trabajador';
         $user->nombre = $request->nombre;
+        $user->alias = $request->alias;
         $user->email = $request->email;
         $user->password = Hash::make($request->password);
         $user->save();
     }
 
-    //Función que contiene la lógica para actualizar un usuario
+    // Función que contiene la lógica para actualizar un usuario
     public function update(Request $request)
     {
         if(!$request->ajax()) return redirect('/');
         $user = User::findOrFail($request->id);
         $user->nombre = $request->nombre;
+        $user->alias = $request->alias;
         $user->email = $request->email;
         $user->password = Hash::make($request->password);
         $user->save();
     }
 
-    //Función que contiene la lógica para eliminar un usuario
+    // Función que contiene la lógica para eliminar un usuario
     public function destroy(Request $request)
     {
         if(!$request->ajax()) return redirect('/');

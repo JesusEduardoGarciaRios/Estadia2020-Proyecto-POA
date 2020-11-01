@@ -44,6 +44,7 @@
                                     <tr>
                                         <th>Rol</th>
                                         <th>Nombre</th>
+                                        <th>Alias</th>
                                         <th>Email</th>
                                         <th>Contraseña</th>
                                         <th>Acciones</th>
@@ -53,6 +54,7 @@
                                     <tr v-for="datos in arrayDatos" :key="datos.id">
                                         <td v-text="datos.rol"></td>
                                         <td v-text="datos.nombre"></td>
+                                        <td v-text="datos.alias"></td>
                                         <td v-text="datos.email"></td>
                                         <td v-text="datos.password"></td>
                                         <td>
@@ -111,26 +113,33 @@
                     <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
                         <div class="card-body">
                              <!-- Rol -->
-                            <div class="form-group row">
+                            <!-- <div class="form-group row">
                                 <label for="text-input" class="col-md-3 form-control-label">Rol</label>
                                 <div class="col-md-9">
-                                    <select  v-model="rol" class="form-control">
+                                    <select class="form-control">
                                         <option>Trabajador</option>
                                     </select>
                                 </div>
-                            </div>
+                            </div> -->
                             <!-- Nombre -->
                             <div class="form-group row">
-                                <label for="text-input" class="col-md-3 form-control-label">Nombre</label>
+                                <label for="text-input" class="col-md-3 form-control-label">Nombre completo</label>
                                 <div class="col-md-9">
-                                    <input v-model="nombre" type="text" class="form-control" placeholder="Nombre del usuario">
+                                    <input v-model="nombre" type="text" class="form-control" placeholder="Nombre completo del usuario">
+                                </div>
+                            </div>
+                            <!-- alias -->
+                            <div class="form-group row">
+                                <label for="text-input" class="col-md-3 form-control-label">Alias</label>
+                                <div class="col-md-9">
+                                    <input v-model="alias" type="text" class="form-control" placeholder="Alias del usuario ej: Lic. Mariana">
                                 </div>
                             </div>
                             <!-- Email -->
                             <div class="form-group row">
                                 <label for="text-input" class="col-md-3 form-control-label">Email</label>
                                 <div class="col-md-9">
-                                    <input  v-model="email" type="email" pattern=".+@upv.edu.mx" class="form-control" placeholder="Email del usuario">
+                                    <input  v-model="email" type="email" pattern=".+@upv.edu.mx" class="form-control" placeholder="Email del usuario@upv.edu.mx">
                                 </div>
                             </div>
                             <!-- Password -->
@@ -173,8 +182,9 @@
             return{
                 //Variables para trabajar crud
                 user_id: 0,
-                rol: '',
+                // rol: '',
                 nombre: '',
+                alias: '',
                 email: '',
                 password: '',
                 arrayDatos: [],//Variable tipo array para insertar datos
@@ -255,8 +265,9 @@
                 let me = this;
                 axios.post('/usuario/registrar',{
                     /*se hace referencia al contenido que tienen los campos en ese momento*/
-                    'rol': this.rol,
+                    // 'rol': this.rol,
                     'nombre': this.nombre,
+                    'alias': this.alias,
                     'email': this.email,
                     'password': this.password
                 }).then(function(response) {
@@ -297,8 +308,9 @@
                     /*se hace referencia al id de la fila en la que se hizo clic en el botón 
                     editar y al contenido que tienen los campos en ese momento*/
                     'id': this.user_id,
-                    'rol': this.rol,
+                    // 'rol': this.rol,
                     'nombre': this.nombre,
+                    'alias': this.alias,
                     'email': this.email,
                     'password': this.password
                 }).then(function(response) {
@@ -387,7 +399,7 @@
                 this.errorMostrarMsjDatos = [];
                 /*Si el contenido de los campos son distintos a las variables, es decir si estan vacíos los campos,
                 se retorna el array de errores para que sean vistos en pantalla*/
-                if(!this.rol)this.errorMostrarMsjDatos.push("El campo rol debe tener una opción.");
+                // if(!this.rol)this.errorMostrarMsjDatos.push("El campo rol debe tener una opción.");
                 // if(!this.numproceso)this.errorMostrarMsjDatos.push("El campo número proceso no puede estar vacío.");
                 if(!this.nombre)this.errorMostrarMsjDatos.push("El campo nombre no puede estar vacío.");
                 if(!this.email)this.errorMostrarMsjDatos.push("El campo email no puede estar vacío.");
@@ -400,8 +412,9 @@
             cerrarModal(){
                 this.modal = 0;
                 this.tituloModal = '';
-                this.rol = '';
+                // this.rol = '';
                 this.nombre = '';
+                this.alias = '',
                 this.email = '';
                 this.password = '';
             },
@@ -417,8 +430,9 @@
                                 this.modal = 1;
                                 this.tituloModal = 'Registrar Usuario';
                                 this.tipoAccion = 1;
-                                this.rol = '';
+                                // this.rol = '';
                                 this.nombre = '';
+                                this.alias = '',
                                 this.email = '';
                                 this.password = '';
                                 break;
@@ -430,6 +444,7 @@
                                 this.user_id = data['id'];
                                 // this.rol = data['rol'];
                                 this.nombre = data['nombre'];
+                                this.alias = data['alias'];
                                 this.email = data['email'];
                                 this.password = data['password'];
                                 break;

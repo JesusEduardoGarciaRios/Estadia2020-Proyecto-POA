@@ -2746,14 +2746,24 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //Declaración de variables
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       //Variables para trabajar crud
       user_id: 0,
-      rol: '',
+      // rol: '',
       nombre: '',
+      alias: '',
       email: '',
       password: '',
       arrayDatos: [],
@@ -2846,8 +2856,9 @@ __webpack_require__.r(__webpack_exports__);
       var me = this;
       axios.post('/usuario/registrar', {
         /*se hace referencia al contenido que tienen los campos en ese momento*/
-        'rol': this.rol,
+        // 'rol': this.rol,
         'nombre': this.nombre,
+        'alias': this.alias,
         'email': this.email,
         'password': this.password
       }).then(function (response) {
@@ -2889,8 +2900,9 @@ __webpack_require__.r(__webpack_exports__);
         /*se hace referencia al id de la fila en la que se hizo clic en el botón 
         editar y al contenido que tienen los campos en ese momento*/
         'id': this.user_id,
-        'rol': this.rol,
+        // 'rol': this.rol,
         'nombre': this.nombre,
+        'alias': this.alias,
         'email': this.email,
         'password': this.password
       }).then(function (response) {
@@ -2982,8 +2994,8 @@ __webpack_require__.r(__webpack_exports__);
       this.errorMostrarMsjDatos = [];
       /*Si el contenido de los campos son distintos a las variables, es decir si estan vacíos los campos,
       se retorna el array de errores para que sean vistos en pantalla*/
-
-      if (!this.rol) this.errorMostrarMsjDatos.push("El campo rol debe tener una opción."); // if(!this.numproceso)this.errorMostrarMsjDatos.push("El campo número proceso no puede estar vacío.");
+      // if(!this.rol)this.errorMostrarMsjDatos.push("El campo rol debe tener una opción.");
+      // if(!this.numproceso)this.errorMostrarMsjDatos.push("El campo número proceso no puede estar vacío.");
 
       if (!this.nombre) this.errorMostrarMsjDatos.push("El campo nombre no puede estar vacío.");
       if (!this.email) this.errorMostrarMsjDatos.push("El campo email no puede estar vacío.");
@@ -2996,10 +3008,10 @@ __webpack_require__.r(__webpack_exports__);
     vacias(string) o en ceros las que esperan valores numéricos*/
     cerrarModal: function cerrarModal() {
       this.modal = 0;
-      this.tituloModal = '';
-      this.rol = '';
+      this.tituloModal = ''; // this.rol = '';
+
       this.nombre = '';
-      this.email = '';
+      this.alias = '', this.email = '';
       this.password = '';
     },
 
@@ -3018,10 +3030,10 @@ __webpack_require__.r(__webpack_exports__);
                 {
                   this.modal = 1;
                   this.tituloModal = 'Registrar Usuario';
-                  this.tipoAccion = 1;
-                  this.rol = '';
+                  this.tipoAccion = 1; // this.rol = '';
+
                   this.nombre = '';
-                  this.email = '';
+                  this.alias = '', this.email = '';
                   this.password = '';
                   break;
                 }
@@ -3034,6 +3046,7 @@ __webpack_require__.r(__webpack_exports__);
                   this.user_id = data['id']; // this.rol = data['rol'];
 
                   this.nombre = data['nombre'];
+                  this.alias = data['alias'];
                   this.email = data['email'];
                   this.password = data['password'];
                   break;
@@ -40245,6 +40258,10 @@ var render = function() {
                           }),
                           _vm._v(" "),
                           _c("td", {
+                            domProps: { textContent: _vm._s(datos.alias) }
+                          }),
+                          _vm._v(" "),
+                          _c("td", {
                             domProps: { textContent: _vm._s(datos.email) }
                           }),
                           _vm._v(" "),
@@ -40430,51 +40447,7 @@ var render = function() {
                           staticClass: "col-md-3 form-control-label",
                           attrs: { for: "text-input" }
                         },
-                        [_vm._v("Rol")]
-                      ),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col-md-9" }, [
-                        _c(
-                          "select",
-                          {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.rol,
-                                expression: "rol"
-                              }
-                            ],
-                            staticClass: "form-control",
-                            on: {
-                              change: function($event) {
-                                var $$selectedVal = Array.prototype.filter
-                                  .call($event.target.options, function(o) {
-                                    return o.selected
-                                  })
-                                  .map(function(o) {
-                                    var val = "_value" in o ? o._value : o.value
-                                    return val
-                                  })
-                                _vm.rol = $event.target.multiple
-                                  ? $$selectedVal
-                                  : $$selectedVal[0]
-                              }
-                            }
-                          },
-                          [_c("option", [_vm._v("Trabajador")])]
-                        )
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "form-group row" }, [
-                      _c(
-                        "label",
-                        {
-                          staticClass: "col-md-3 form-control-label",
-                          attrs: { for: "text-input" }
-                        },
-                        [_vm._v("Nombre")]
+                        [_vm._v("Nombre completo")]
                       ),
                       _vm._v(" "),
                       _c("div", { staticClass: "col-md-9" }, [
@@ -40490,7 +40463,7 @@ var render = function() {
                           staticClass: "form-control",
                           attrs: {
                             type: "text",
-                            placeholder: "Nombre del usuario"
+                            placeholder: "Nombre completo del usuario"
                           },
                           domProps: { value: _vm.nombre },
                           on: {
@@ -40499,6 +40472,44 @@ var render = function() {
                                 return
                               }
                               _vm.nombre = $event.target.value
+                            }
+                          }
+                        })
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group row" }, [
+                      _c(
+                        "label",
+                        {
+                          staticClass: "col-md-3 form-control-label",
+                          attrs: { for: "text-input" }
+                        },
+                        [_vm._v("Alias")]
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-9" }, [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.alias,
+                              expression: "alias"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "text",
+                            placeholder: "Alias del usuario ej: Lic. Mariana"
+                          },
+                          domProps: { value: _vm.alias },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.alias = $event.target.value
                             }
                           }
                         })
@@ -40529,7 +40540,7 @@ var render = function() {
                           attrs: {
                             type: "email",
                             pattern: ".+@upv.edu.mx",
-                            placeholder: "Email del usuario"
+                            placeholder: "Email del usuario@upv.edu.mx"
                           },
                           domProps: { value: _vm.email },
                           on: {
@@ -40714,6 +40725,8 @@ var staticRenderFns = [
         _c("th", [_vm._v("Rol")]),
         _vm._v(" "),
         _c("th", [_vm._v("Nombre")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Alias")]),
         _vm._v(" "),
         _c("th", [_vm._v("Email")]),
         _vm._v(" "),
