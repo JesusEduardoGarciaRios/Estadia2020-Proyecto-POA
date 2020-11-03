@@ -18,8 +18,7 @@
     </div>
     <!-- /.content-header -->
 
-    <!--INICIO TABLA-->
-    <!-- Main content | Tabla listado sociedades -->
+    <!-- Main content | Inicio tabla -->
     <section class="content">
         <div class="container-fluid">
             <div class="row">
@@ -96,8 +95,7 @@
         </div>
         <!-- /.container-fluid -->
     </section>
-    <!-- /.content | Fin tabla listado -->
-    <!--FIN TABLA-->
+    <!-- /.content | Fin tabla -->
 
     <!-- Inicio modales agregar/editar -->
     <div class="modal fade" tabindex="-1" role="dialog" :class="{'mostrar' : modal}">
@@ -112,59 +110,55 @@
                 <div class="modal-body">
                     <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
                         <div class="card-body">
-                             <!-- Rol -->
-                            <!-- <div class="form-group row">
-                                <label for="text-input" class="col-md-3 form-control-label">Rol</label>
-                                <div class="col-md-9">
-                                    <select class="form-control">
-                                        <option>Trabajador</option>
-                                    </select>
-                                </div>
-                            </div> -->
                             <!-- Nombre -->
-                            <div class="form-group row">
+                            <div class="form-group row" :class="{ 'form-group row--error': $v.nombre.$error }">
                                 <label for="text-input" class="col-md-3 form-control-label">Nombre completo</label>
                                 <div class="col-md-9">
-                                    <input v-model="nombre" type="text" class="form-control" placeholder="Nombre completo del usuario">
+                                    <input v-model.trim="$v.nombre.$model" type="text" class="form-control" placeholder="Nombre completo del usuario">
+                                    <!-- Mostrar validaciones de campo Nombre -->
+                                    <div class="error" v-if="!$v.nombre.required"><p class="text-danger">Este campo es requerido.</p></div>
                                 </div>
                             </div>
-                            <!-- alias -->
-                            <div class="form-group row">
+                            
+                            <!-- Alias -->
+                            <div class="form-group row" :class="{ 'form-group row--error': $v.alias.$error }">
                                 <label for="text-input" class="col-md-3 form-control-label">Alias</label>
                                 <div class="col-md-9">
-                                    <input v-model="alias" type="text" class="form-control" placeholder="Alias del usuario ej: Lic. Mariana">
+                                    <input v-model.trim="$v.alias.$model" type="text" class="form-control" placeholder="Alias del usuario ej: Lic. Mariana">
+                                    <!-- Mostrar validaciones de campo Alias -->
+                                    <div class="error" v-if="!$v.alias.required"><p class="text-danger">Este campo es requerido.</p></div>
+                                    <div class="error" v-if="!$v.alias.maxLength"><p class="text-danger">Este campo tiene un máximo de 20 caracteres.</p></div>
                                 </div>
                             </div>
+                            
                             <!-- Email -->
-                            <div class="form-group row">
+                            <div class="form-group row" :class="{ 'form-group row--error': $v.email.$error }">
                                 <label for="text-input" class="col-md-3 form-control-label">Email</label>
                                 <div class="col-md-9">
-                                    <input  v-model="email" type="email" pattern=".+@upv.edu.mx" class="form-control" placeholder="Email del usuario@upv.edu.mx">
+                                    <input v-model.trim="$v.email.$model" type="email" pattern=".+@upv.edu.mx" class="form-control" placeholder="Email del usuario@upv.edu.mx">
+                                    <!-- Mostrar validaciones de campo Email -->
+                                    <div class="error" v-if="!$v.email.required"><p class="text-danger">Este campo es requerido.</p></div>
+                                    <div class="error" v-if="!$v.email.email"><p class="text-danger">Este campo es inválido.</p></div>
                                 </div>
                             </div>
+                            
                             <!-- Password -->
-                            <div class="form-group row">
+                            <div class="form-group row" :class="{ 'form-group row--error': $v.password.$error }">
                                 <label for="text-input" class="col-md-3 form-control-label">Contraseña</label>
                                 <div class="col-md-9">
-                                    <input v-model="password" type="text" class="form-control" placeholder="Contraseña del usuario">
+                                    <input v-model.trim="$v.password.$model" type="text" class="form-control" placeholder="Contraseña del usuario">
+                                     <!-- Mostrar validaciones de campo Password -->
+                                    <div class="error" v-if="!$v.password.required"><p class="text-danger">Este campo es requerido.</p></div>
+                                    <div class="error" v-if="!$v.password.minLength"><p class="text-danger">Este campo debe tener un mínimo de {{$v.password.$params.minLength.min}} caracteres.</p></div>
                                 </div>
                             </div>
-                            <!-- Mostrar validaciones -->
-                            <div v-show="errorMostrarMsjDatos" class="form-group row div-error">
-                                <div class="texte-center text-error">
-                                    <div v-for="error in errorMostrarMsjDatos" :key="error" v-text="error">
-
-                                    </div>
-                                </div>
-                            </div>
-
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-secondary" @click="cerrarModal()">Cerrar</button>
-                    <button type="button" v-if="tipoAccion==1" class="btn btn-success" @click="registrarDatos()">Guardar</button>
-                    <button type="button" v-if="tipoAccion==2" class="btn btn-primary" @click="actualizarDatos()">Editar</button>
+                    <button type="button" v-if="tipoAccion==1" class="btn btn-success" :disabled="$v.$invalid" @click="registrarDatos()">Guardar</button>
+                    <button type="button" v-if="tipoAccion==2" class="btn btn-primary" :disabled="$v.$invalid" @click="actualizarDatos()">Editar</button>
                 </div>
             </div>
             <!-- /.modal-content -->
@@ -176,13 +170,12 @@
 </template>
 
 <script>
-    //Declaración de variables
+    import { required, minLength, maxLength, email } from 'vuelidate/lib/validators';
     export default {
         data(){
             return{
-                //Variables para trabajar crud
+                //Declaración de variables para trabajar crud
                 user_id: 0,
-                // rol: '',
                 nombre: '',
                 alias: '',
                 email: '',
@@ -191,8 +184,6 @@
                 modal: 0,
                 tituloModal: '',
                 tipoAccion: 0,
-                errorDatos: [],//Variable tipo array que contiene el número de validaciones
-                errorMostrarMsjDatos: [],//Variable tipo array que muestra las validaciones
                 //Variables de paginación
                 pagination: {
                     'total': 0,
@@ -203,6 +194,23 @@
                     'to': 0
                 },
                 offset: 3
+            }
+        },
+        validations: {
+            nombre: {
+                required
+            },
+            alias: {
+                required,
+                maxLength: maxLength(20)
+            },
+            email: {
+                required,
+                email
+            },
+            password: {
+                required,
+                minLength: minLength(4)
             }
         },
         computed:{
@@ -256,16 +264,54 @@
                 //Envia la petición para visualizar el contenido de esa página
                 me.listarDatos(page);
             },
+            /*Método encargado de abrir el modal de registrar y actualizar, se utiliza el
+            mismo modal para ambas acciones, cuando se va a registrar trae las variables 
+            vacias y cuando se va a actualizar se traen las variables con los campos llenos
+            según la fila donde se haya hecho clic en el datatable*/
+            abrirModal(modelo, accion, data = []){
+                switch(modelo){
+                    case "datos":{
+                        switch(accion){
+                            case "registrar":{
+                                this.modal = 1;
+                                this.tituloModal = 'Registrar Usuario';
+                                this.tipoAccion = 1;
+                                this.nombre = '';
+                                this.alias = '',
+                                this.email = '';
+                                this.password = '';
+                                break;
+                            }
+                            case "actualizar":{
+                                this.modal = 1;
+                                this.tituloModal = 'Actualizar Usuario';
+                                this.tipoAccion = 2;
+                                this.user_id = data['id'];
+                                this.nombre = data['nombre'];
+                                this.alias = data['alias'];
+                                this.email = data['email'];
+                                this.password = data['password'];
+                                break;
+                            }
+                        }
+                    }
+                }
+            },
+            /*Método encargado de cerrar un modal, se establecen las variables de registro
+            vacias(string) o en ceros las que esperan valores numéricos*/
+            cerrarModal(){
+                this.modal = 0;
+                this.tituloModal = '';
+                this.nombre = '';
+                this.alias = '',
+                this.email = '';
+                this.password = '';
+            },
             /*Método que contiene la logica para registrar desde la ventana modal*/
             registrarDatos(){
-                //Se valida que los campos esten llenos antes de guardar registro
-                if(this.validarDatos()){
-                    return;
-                }
                 let me = this;
                 axios.post('/usuario/registrar',{
                     /*se hace referencia al contenido que tienen los campos en ese momento*/
-                    // 'rol': this.rol,
                     'nombre': this.nombre,
                     'alias': this.alias,
                     'email': this.email,
@@ -299,16 +345,11 @@
             },
             /*Método que contiene la logica para actualizar desde la ventana modal*/
             actualizarDatos(){
-                //Se valida que los campos esten llenos antes de guardar registro
-                if(this.validarDatos()){
-                    return;
-                }
                 let me = this;
                 axios.put('/usuario/actualizar',{
                     /*se hace referencia al id de la fila en la que se hizo clic en el botón 
                     editar y al contenido que tienen los campos en ese momento*/
                     'id': this.user_id,
-                    // 'rol': this.rol,
                     'nombre': this.nombre,
                     'alias': this.alias,
                     'email': this.email,
@@ -393,68 +434,8 @@
                     }
                 })
             },
-            /*Método para validar campos vacíos en este componente*/
-            validarDatos(){
-                this.errorDatos = 0;
-                this.errorMostrarMsjDatos = [];
-                /*Si el contenido de los campos son distintos a las variables, es decir si estan vacíos los campos,
-                se retorna el array de errores para que sean vistos en pantalla*/
-                // if(!this.rol)this.errorMostrarMsjDatos.push("El campo rol debe tener una opción.");
-                // if(!this.numproceso)this.errorMostrarMsjDatos.push("El campo número proceso no puede estar vacío.");
-                if(!this.nombre)this.errorMostrarMsjDatos.push("El campo nombre no puede estar vacío.");
-                if(!this.email)this.errorMostrarMsjDatos.push("El campo email no puede estar vacío.");
-                if(!this.password)this.errorMostrarMsjDatos.push("El campo contraseña no puede estar vacío.");
-                if(this.errorMostrarMsjDatos.length)this.errorDatos = 1;
-                return this.errorDatos;
-            },
-            /*Método encargado de cerrar un modal, se establecen las variables de registro
-            vacias(string) o en ceros las que esperan valores numéricos*/
-            cerrarModal(){
-                this.modal = 0;
-                this.tituloModal = '';
-                // this.rol = '';
-                this.nombre = '';
-                this.alias = '',
-                this.email = '';
-                this.password = '';
-            },
-            /*Método encargado de abrir el modal de registrar y actualizar, se utiliza el
-            mismo modal para ambas acciones, cuando se va a registrar trae las variables 
-            vacias y cuando se va a actualizar se traen las variables con los campos llenos
-            según la fila donde se haya hecho clic en el datatable*/
-            abrirModal(modelo, accion, data = []){
-                switch(modelo){
-                    case "datos":{
-                        switch(accion){
-                            case "registrar":{
-                                this.modal = 1;
-                                this.tituloModal = 'Registrar Usuario';
-                                this.tipoAccion = 1;
-                                // this.rol = '';
-                                this.nombre = '';
-                                this.alias = '',
-                                this.email = '';
-                                this.password = '';
-                                break;
-                            }
-                            case "actualizar":{
-                                this.modal = 1;
-                                this.tituloModal = 'Actualizar Usuario';
-                                this.tipoAccion = 2;
-                                this.user_id = data['id'];
-                                // this.rol = data['rol'];
-                                this.nombre = data['nombre'];
-                                this.alias = data['alias'];
-                                this.email = data['email'];
-                                this.password = data['password'];
-                                break;
-                            }
-                        }
-                    }
-                }
-            },
         },
-        /*Se mandan a llamar en ese apartado el método listar para
+        /*Se manda a llamar en ese apartado el método listar para
         que esté de manera global*/
         mounted() {
             this.listarDatos();

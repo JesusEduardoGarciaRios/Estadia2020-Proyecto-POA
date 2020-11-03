@@ -18,8 +18,7 @@
     </div>
     <!-- /.content-header -->
 
-    <!--INICIO TABLA-->
-    <!-- Main content | Tabla listado sociedades -->
+    <!-- Main content | Inicio tabla -->
     <section class="content">
         <div class="container-fluid">
             <div class="row">
@@ -34,10 +33,6 @@
                                 <button @click="abrirModal('datos','registrar')" title="Agregar nuevo registro" type="button" 
                                 class="btn btn-success btn-sm">
                                     <i class="fas fa-plus"></i>
-                                </button>
-                                <button @click="descargarPdf()" title="Descargar Reporte" type="button" 
-                                class="btn btn-info btn-sm">
-                                    <i class="fas fa-file"></i>
                                 </button>
                             </div>
                         </div>
@@ -104,8 +99,7 @@
         </div>
         <!-- /.container-fluid -->
     </section>
-    <!-- /.content | Fin tabla listado -->
-    <!--FIN TABLA-->
+    <!-- /.content | Fin tabla -->
 
     <!-- Inicio modales agregar/editar -->
     <div class="modal fade" tabindex="-1" role="dialog" :class="{'mostrar' : modal}">
@@ -121,76 +115,88 @@
                     <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
                         <div class="card-body">
                             <!-- Denominación del proceso -->
-                            <div class="form-group row">
+                            <div class="form-group row" :class="{ 'form-group row--error': $v.denoproceso.$error }">
                                 <label for="text-input" class="col-md-3 form-control-label">Denominación del proceso</label>
                                 <div class="col-md-9">
-                                    <input v-model="denoproceso" type="text" class="form-control" placeholder="ej: Congresos">
+                                    <input v-model.trim="$v.denoproceso.$model" type="text" class="form-control" placeholder="ej: Congresos">
+                                    <!-- Mostrar validaciones de campo Denominación del proceso -->
+                                    <div class="error" v-if="!$v.denoproceso.required"><p class="text-danger">Este campo es requerido.</p></div>
+                                    <div class="error" v-if="!$v.denoproceso.maxLength"><p class="text-danger">Este campo tiene un máximo de 240 caracteres.</p></div>
                                 </div>
                             </div>
+
                             <!-- Número del proceso -->
                             <div class="form-group row">
-                                <label for="text-input" class="col-md-3 form-control-label">Núm. del proceso</label>
+                                <label for="text-input" class="col-md-3 form-control-label">Núm. del proceso (Opcional)</label>
                                 <div class="col-md-9">
                                     <input  v-model="numproceso" type="number" class="form-control" placeholder="ej: 1">
                                 </div>
                             </div>
+
                             <!-- Mejora que da el proceso -->
-                            <div class="form-group row">
+                            <div class="form-group row" :class="{ 'form-group row--error': $v.mejoraproceso.$error }">
                                 <label for="text-input" class="col-md-3 form-control-label">Mejora</label>
                                 <div class="col-md-9">
-                                    <select  v-model="mejoraproceso" class="form-control">
+                                    <select v-model.trim="$v.mejoraproceso.$model" class="form-control">
                                         <option disabled value="">Seleccione un elemento</option>
                                         <option>Programa Educativo</option>
                                         <option>Proceso de Gestión</option>
                                     </select>
+                                    <!-- Mostrar validaciones de campo Mejora -->
+                                    <div class="error" v-if="!$v.mejoraproceso.required"><p class="text-danger">Este campo debe tener una opción.</p></div>
                                 </div>
                             </div>
+
                             <!-- Área responsable -->
-                            <div class="form-group row">
+                            <div class="form-group row" :class="{ 'form-group row--error': $v.arearesponsable.$error }">
                                 <label for="text-input" class="col-md-3 form-control-label">Área responsable</label>
                                 <div class="col-md-9">
-                                    <input  v-model="arearesponsable" type="text" class="form-control" placeholder="ej: Titular del Programa Académico de ITI">
+                                    <input v-model.trim="$v.arearesponsable.$model" type="text" class="form-control" placeholder="ej: Titular del Programa Académico de ITI">
+                                    <!-- Mostrar validaciones de campo Área responsable -->
+                                    <div class="error" v-if="!$v.arearesponsable.required"><p class="text-danger">Este campo es requerido.</p></div>
+                                    <div class="error" v-if="!$v.arearesponsable.maxLength"><p class="text-danger">Este campo tiene un máximo de 240 caracteres.</p></div>
                                 </div>
                             </div>
+
                             <!-- Objetivo del proceso -->
-                            <div class="form-group row">
+                            <div class="form-group row" :class="{ 'form-group row--error': $v.objetivoproceso.$error }">
                                 <label for="text-input" class="col-md-3 form-control-label">Objetivo del proceso</label>
                                 <div class="col-md-9">
-                                    <!-- <input  type="text" class="form-control" placeholder="Objetivo del proceso"> -->
-                                    <textarea v-model="objetivoproceso" class="form-control"></textarea>
+                                    <textarea v-model.trim="$v.objetivoproceso.$model" class="form-control"></textarea>
+                                    <!-- Mostrar validaciones de campo Objetivo del proceso -->
+                                    <div class="error" v-if="!$v.objetivoproceso.required"><p class="text-danger">Este campo es requerido.</p></div>
+                                    <div class="error" v-if="!$v.objetivoproceso.maxLength"><p class="text-danger">Este campo tiene un máximo de 450 caracteres.</p></div>
                                 </div>
                             </div>
+
                             <!-- Atención que da el proceso -->
-                            <div class="form-group row">
+                            <div class="form-group row" :class="{ 'form-group row--error': $v.pideatencion.$error }">
                                 <label for="text-input" class="col-md-3 form-control-label">Atención</label>
                                 <div class="col-md-9">
-                                    <input  v-model="pideatencion" type="text" class="form-control" placeholder="Pide al que se da atención">
+                                    <input v-model.trim="$v.pideatencion.$model" type="text" class="form-control" placeholder="Pide al que se da atención">
+                                    <!-- Mostrar validaciones de campo Atención -->
+                                    <div class="error" v-if="!$v.pideatencion.required"><p class="text-danger">Este campo es requerido.</p></div>
+                                    <div class="error" v-if="!$v.pideatencion.maxLength"><p class="text-danger">Este campo tiene un máximo de 200 caracteres.</p></div>
                                 </div>
                             </div>
+
                              <!-- Problemática -->
-                            <div class="form-group row">
+                            <div class="form-group row" :class="{ 'form-group row--error': $v.problematica.$error }">
                                 <label for="text-input" class="col-md-3 form-control-label">Problemática</label>
                                 <div class="col-md-9">
-                                    <!-- <input   type="text" class="form-control" placeholder="Problemática que atiende el proceso"> -->
-                                    <textarea v-model="problematica" class="form-control"></textarea>
+                                    <textarea v-model.trim="$v.problematica.$model" class="form-control"></textarea>
+                                    <!-- Mostrar validaciones de campo Problemática -->
+                                    <div class="error" v-if="!$v.problematica.required"><p class="text-danger">Este campo es requerido.</p></div>
+                                    <div class="error" v-if="!$v.problematica.maxLength"><p class="text-danger">Este campo tiene un máximo de 600 caracteres.</p></div>
                                 </div>
                             </div>
-                            <!-- Mostrar validaciones -->
-                            <div v-show="errorMostrarMsjDatos" class="form-group row div-error">
-                                <div class="texte-center text-error">
-                                    <div v-for="error in errorMostrarMsjDatos" :key="error" v-text="error">
-
-                                    </div>
-                                </div>
-                            </div>
-
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-secondary" @click="cerrarModal()">Cerrar</button>
-                    <button type="button" v-if="tipoAccion==1" class="btn btn-success" @click="registrarDatos()">Guardar</button>
-                    <button type="button" v-if="tipoAccion==2" class="btn btn-primary" @click="actualizarDatos()">Editar</button>
+                    <button type="button" v-if="tipoAccion==1" class="btn btn-success" :disabled="$v.$invalid" @click="registrarDatos()">Guardar</button>
+                    <button type="button" v-if="tipoAccion==2" class="btn btn-primary" :disabled="$v.$invalid" @click="actualizarDatos()">Editar</button>
                 </div>
             </div>
             <!-- /.modal-content -->
@@ -202,11 +208,11 @@
 </template>
 
 <script>
-    //Declaración de variables
+    import { required, maxLength } from 'vuelidate/lib/validators';
     export default {
         data(){
             return{
-                //Variables para trabajar crud
+                //Declaración de variables para trabajar crud
                 datobasico_id: 0,
                 denoproceso: '',
                 numproceso: 0,
@@ -219,8 +225,6 @@
                 modal: 0,
                 tituloModal: '',
                 tipoAccion: 0,
-                errorDatos: [],//Variable tipo array que contiene el número de validaciones
-                errorMostrarMsjDatos: [],//Variable tipo array que muestra las validaciones
                 //Variables de paginación
                 pagination: {
                     'total': 0,
@@ -232,6 +236,31 @@
                 },
                 offset: 3
             }
+        },
+        validations: {
+            denoproceso: {
+                required,
+                maxLength: maxLength(240)
+            },
+            mejoraproceso: {
+                required
+            },
+            arearesponsable: {
+                required,
+                maxLength: maxLength(240)
+            },
+            objetivoproceso: {
+                required,
+                maxLength: maxLength(450)
+            },
+            pideatencion: {
+                required,
+                maxLength: maxLength(200)
+            },
+            problematica: {
+                required,
+                maxLength: maxLength(600)
+            },
         },
         computed:{
             //página actual
@@ -275,13 +304,6 @@
                     console.log(error);
                 });
             },
-             /*Método encargado de la descarga de pdf del total de registros en el datatable*/
-            descargarPdf(){
-                /*Se utiliza la función window.open de JS y se utiliza "_blank" para que
-                cuando se haga clic en descargar factura se abra una nueva ventana en el 
-                navegador para descargar y ver el pdf*/
-                window.open('http://161.35.124.133/sociedad/descargarPdf','_blank');
-            },
             /*Métdo encargado de cambiar de página con los botones que se encuentran debajo del datatable,
             se envía como parámetro la variable page que contiene el número de la página*/
             cambiarPagina(page){
@@ -291,12 +313,60 @@
                 //Envia la petición para visualizar el contenido de esa página
                 me.listarDatos(page);
             },
+            /*Método encargado de abrir el modal de registrar y actualizar, se utiliza el
+            mismo modal para ambas acciones, cuando se va a registrar trae las variables 
+            vacias y cuando se va a actualizar se traen las variables con los campos llenos
+            según la fila donde se haya hecho clic en el datatable*/
+            abrirModal(modelo, accion, data = []){
+                switch(modelo){
+                    case "datos":{
+                        switch(accion){
+                            case "registrar":{
+                                this.modal = 1;
+                                this.tituloModal = 'Registrar Datos Básicos';
+                                this.tipoAccion = 1;
+                                this.denoproceso = '';
+                                this.numproceso = '';
+                                this.mejoraproceso = '';
+                                this.arearesponsable = '';
+                                this.objetivoproceso = '';
+                                this.pideatencion = '';
+                                this.problematica = '';
+                                break;
+                            }
+                            case "actualizar":{
+                                this.modal = 1;
+                                this.tituloModal = 'Actualizar Datos Básicos';
+                                this.tipoAccion = 2;
+                                this.datobasico_id = data['id'];
+                                this.denoproceso = data['denoproceso'];
+                                this.numproceso = data['numproceso'];
+                                this.mejoraproceso = data['mejoraproceso'];
+                                this.arearesponsable = data['arearesponsable'];
+                                this.objetivoproceso = data['objetivoproceso'];
+                                this.pideatencion = data['pideatencion'];
+                                this.problematica = data['problematica'];
+                                break;
+                            }
+                        }
+                    }
+                }
+            },
+            /*Método encargado de cerrar un modal, se establecen las variables de registro
+            vacias(string) o en ceros las que esperan valores numéricos*/
+            cerrarModal(){
+                this.modal = 0;
+                this.tituloModal = '';
+                this.denoproceso = '';
+                this.numproceso = 0;
+                this.mejoraproceso = '';
+                this.arearesponsable = '';
+                this.objetivoproceso = '';
+                this.pideatencion = '';
+                this.problematica = '';
+            },  
             /*Método que contiene la logica para registrar desde la ventana modal*/
             registrarDatos(){
-                //Se valida que los campos esten llenos antes de guardar registro
-                if(this.validarDatos()){
-                    return;
-                }
                 let me = this;
                 axios.post('/datosBasicos/registrar',{
                     /*se hace referencia al contenido que tienen los campos en ese momento*/
@@ -336,10 +406,6 @@
             },
             /*Método que contiene la logica para actualizar desde la ventana modal*/
             actualizarDatos(){
-                //Se valida que los campos esten llenos antes de guardar registro
-                if(this.validarDatos()){
-                    return;
-                }
                 let me = this;
                 axios.put('/datosBasicos/actualizar',{
                     /*se hace referencia al id de la fila en la que se hizo clic en el botón 
@@ -431,74 +497,6 @@
                         });
                     }
                 })
-            },
-            /*Método para validar campos vacíos en este componente*/
-            validarDatos(){
-                this.errorDatos = 0;
-                this.errorMostrarMsjDatos = [];
-                /*Si el contenido de los campos son distintos a las variables, es decir si estan vacíos los campos,
-                se retorna el array de errores para que sean vistos en pantalla*/
-                if(!this.denoproceso)this.errorMostrarMsjDatos.push("El campo denominación de proceso no puede estar vacío.");
-                // if(!this.numproceso)this.errorMostrarMsjDatos.push("El campo número proceso no puede estar vacío.");
-                if(!this.mejoraproceso)this.errorMostrarMsjDatos.push("El campo mejora no puede estar vacío.");
-                if(!this.arearesponsable)this.errorMostrarMsjDatos.push("El campo área responsable no puede estar vacío.");
-                if(!this.objetivoproceso)this.errorMostrarMsjDatos.push("El campo objetivo del proceso no puede estar vacío.");
-                if(!this.pideatencion)this.errorMostrarMsjDatos.push("El campo atención al pide no puede estar vacío.");
-                if(!this.problematica)this.errorMostrarMsjDatos.push("El campo problemática no puede estar vacío.");
-                if(this.errorMostrarMsjDatos.length)this.errorDatos = 1;
-                return this.errorDatos;
-            },
-            /*Método encargado de cerrar un modal, se establecen las variables de registro
-            vacias(string) o en ceros las que esperan valores numéricos*/
-            cerrarModal(){
-                this.modal = 0;
-                this.tituloModal = '';
-                this.denoproceso = '';
-                this.numproceso = 0;
-                this.mejoraproceso = '';
-                this.arearesponsable = '';
-                this.objetivoproceso = '';
-                this.pideatencion = '';
-                this.problematica = '';
-            },
-            /*Método encargado de abrir el modal de registrar y actualizar, se utiliza el
-            mismo modal para ambas acciones, cuando se va a registrar trae las variables 
-            vacias y cuando se va a actualizar se traen las variables con los campos llenos
-            según la fila donde se haya hecho clic en el datatable*/
-            abrirModal(modelo, accion, data = []){
-                switch(modelo){
-                    case "datos":{
-                        switch(accion){
-                            case "registrar":{
-                                this.modal = 1;
-                                this.tituloModal = 'Registrar Datos Básicos';
-                                this.tipoAccion = 1;
-                                this.denoproceso = '';
-                                this.numproceso = '';
-                                this.mejoraproceso = '';
-                                this.arearesponsable = '';
-                                this.objetivoproceso = '';
-                                this.pideatencion = '';
-                                this.problematica = '';
-                                break;
-                            }
-                            case "actualizar":{
-                                this.modal = 1;
-                                this.tituloModal = 'Actualizar Datos Básicos';
-                                this.tipoAccion = 2;
-                                this.datobasico_id = data['id'];
-                                this.denoproceso = data['denoproceso'];
-                                this.numproceso = data['numproceso'];
-                                this.mejoraproceso = data['mejoraproceso'];
-                                this.arearesponsable = data['arearesponsable'];
-                                this.objetivoproceso = data['objetivoproceso'];
-                                this.pideatencion = data['pideatencion'];
-                                this.problematica = data['problematica'];
-                                break;
-                            }
-                        }
-                    }
-                }
             },
         },
         /*Se mandan a llamar en ese apartado el método listar para
