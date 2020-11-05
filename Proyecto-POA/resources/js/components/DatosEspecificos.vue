@@ -5,12 +5,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0 text-dark">Datos Básicos POA</h1>
+                    <h1 class="m-0 text-dark">Datos Específicos POA</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Tablero</a></li>
-                        <li class="breadcrumb-item active">Listado de Datos Básicos POA</li>
+                        <li class="breadcrumb-item active">Listado de Datos Específicos POA</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -27,7 +27,7 @@
                         <div class="card-header">
                             <h3 class="card-title">
                                 <i class="fas fa-list-alt"></i>&nbsp;
-                                Listado de Datos Básicos POA
+                                Listado de Datos Específicos POA
                             </h3>
                             <div class="card-tools">
                                 <button @click="abrirModal('datos','registrar')" title="Agregar nuevo registro" type="button" 
@@ -42,24 +42,30 @@
                                 <thead class="thead-dark">
                                     <tr>
                                         <th>Denominación</th>
-                                        <th>Núm. de proceso</th>
-                                        <th>Mejora</th>
-                                        <th>Área Responsable</th>
-                                        <th>Objetivo</th>
-                                        <th>Atención</th>
-                                        <th>Problemática</th>
+                                        <th>Denom. del indicador</th>
+                                        <th>Fórm. del indicador</th>
+                                        <th>Fecha cumplimiento</th>
+                                        <th>Meta actual</th>
+                                        <th>Meta a alcanzar</th>
+                                        <th>1.er avance</th>
+                                        <th>2.do avance</th>
+                                        <th>3.er avance</th>
+                                        <th>Estrategia</th>
                                         <th>Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr v-for="datos in arrayDatos" :key="datos.id">
-                                        <td v-text="datos.denoproceso"></td>
-                                        <td v-text="datos.numproceso"></td>
-                                        <td v-text="datos.mejoraproceso"></td>
-                                        <td v-text="datos.arearesponsable"></td>
-                                        <td v-text="datos.objetivoproceso"></td>
-                                        <td v-text="datos.pideatencion"></td>
-                                        <td v-text="datos.problematica"></td>
+                                        <td v-text="datos.nombre_denoproceso"></td>
+                                        <td v-text="datos.denoindicador"></td>
+                                        <td v-text="datos.formindicador"></td>
+                                        <td v-text="datos.fechacumpli"></td>
+                                        <td v-text="datos.nivelactual"></td>
+                                        <td v-text="datos.metaalcanzar"></td>
+                                        <td v-text="datos.primeroavance"></td>
+                                        <td v-text="datos.segundoavance"></td>
+                                        <td v-text="datos.terceroavance"></td>
+                                        <td v-text="datos.estrategia"></td>
                                         <td>
                                             <button @click="abrirModal('datos','actualizar',datos)" 
                                                 title="Editar" type="button" 
@@ -115,80 +121,109 @@
                     <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
                         <div class="card-body">
                             <!-- Denominación del proceso -->
-                            <div class="form-group row" :class="{ 'form-group row--error': $v.denoproceso.$error }">
-                                <label for="text-input" class="col-md-3 form-control-label">Denominación del proceso</label>
+                            <div class="form-group row" :class="{ 'form-group row--error': $v.datobasicos_id.$error }">
+                                <label for="text-input" class="col-md-3 form-control-label">Denominación</label>
                                 <div class="col-md-9">
-                                    <input v-model.trim="$v.denoproceso.$model" type="text" class="form-control" placeholder="ej: Congresos">
-                                    <!-- Mostrar validaciones de campo Denominación del proceso -->
-                                    <div class="error" v-if="!$v.denoproceso.required"><p class="text-danger">Este campo es requerido.</p></div>
-                                    <div class="error" v-if="!$v.denoproceso.maxLength"><p class="text-danger">Este campo tiene un máximo de 240 caracteres.</p></div>
-                                </div>
-                            </div>
-
-                            <!-- Número del proceso -->
-                            <div class="form-group row" :class="{ 'form-group row--error': $v.numproceso.$error }">
-                                <label for="text-input" class="col-md-3 form-control-label">Núm. del proceso (Opcional)</label>
-                                <div class="col-md-9">
-                                    <input v-model.trim="$v.numproceso.$model" type="number" class="form-control">
-                                    <div class="error" v-if="!$v.numproceso.maxValue"><p class="text-danger">Este campo tiene un valor máximo de 32767.</p></div>
-                                </div>
-                            </div>
-
-                            <!-- Mejora que da el proceso -->
-                            <div class="form-group row" :class="{ 'form-group row--error': $v.mejoraproceso.$error }">
-                                <label for="text-input" class="col-md-3 form-control-label">Mejora</label>
-                                <div class="col-md-9">
-                                    <select v-model.trim="$v.mejoraproceso.$model" class="form-control">
-                                        <option disabled value="">Seleccione una opción</option>
-                                        <option>Programa Educativo</option>
-                                        <option>Proceso de Gestión</option>
+                                    <select v-model.trim="$v.datobasicos_id.$model" class="form-control">
+                                        <option disabled>Seleccione una opción</option>
+                                        <option v-for="datobasicos in arrayDatobasicos" :key="datobasicos.id" :value="datobasicos.id" v-text="datobasicos.denoproceso"></option>
                                     </select>
-                                    <!-- Mostrar validaciones de campo Mejora -->
-                                    <div class="error" v-if="!$v.mejoraproceso.required"><p class="text-danger">Este campo debe tener una opción.</p></div>
+                                    <!-- Mostrar validaciones de campo Denominación del indicador -->
+                                    <div class="error" v-if="!$v.datobasicos_id.required"><p class="text-danger">Este campo debe tener una opción.</p></div>
                                 </div>
                             </div>
 
-                            <!-- Área responsable -->
-                            <div class="form-group row" :class="{ 'form-group row--error': $v.arearesponsable.$error }">
-                                <label for="text-input" class="col-md-3 form-control-label">Área responsable</label>
+                            <!-- Denominación del indicador -->
+                            <div class="form-group row" :class="{ 'form-group row--error': $v.denoindicador.$error }">
+                                <label for="text-input" class="col-md-3 form-control-label">Denominación del indicador</label>
                                 <div class="col-md-9">
-                                    <input v-model.trim="$v.arearesponsable.$model" type="text" class="form-control" placeholder="ej: Titular del Programa Académico de ITI">
-                                    <!-- Mostrar validaciones de campo Área responsable -->
-                                    <div class="error" v-if="!$v.arearesponsable.required"><p class="text-danger">Este campo es requerido.</p></div>
-                                    <div class="error" v-if="!$v.arearesponsable.maxLength"><p class="text-danger">Este campo tiene un máximo de 240 caracteres.</p></div>
+                                    <input v-model.trim="$v.denoindicador.$model" type="text" class="form-control" placeholder="ej: Cursos y congresos">
+                                    <!-- Mostrar validaciones de campo Denominación del indicador -->
+                                    <div class="error" v-if="!$v.denoindicador.required"><p class="text-danger">Este campo es requerido.</p></div>
+                                    <div class="error" v-if="!$v.denoindicador.maxLength"><p class="text-danger">Este campo tiene un máximo de 240 caracteres.</p></div>
                                 </div>
                             </div>
 
-                            <!-- Objetivo del proceso -->
-                            <div class="form-group row" :class="{ 'form-group row--error': $v.objetivoproceso.$error }">
-                                <label for="text-input" class="col-md-3 form-control-label">Objetivo del proceso</label>
+                            <!-- Fórmula del indicador -->
+                            <div class="form-group row" :class="{ 'form-group row--error': $v.formindicador.$error }">
+                                <label for="text-input" class="col-md-3 form-control-label">Fórmula del indicador</label>
                                 <div class="col-md-9">
-                                    <textarea v-model.trim="$v.objetivoproceso.$model" class="form-control"></textarea>
-                                    <!-- Mostrar validaciones de campo Objetivo del proceso -->
-                                    <div class="error" v-if="!$v.objetivoproceso.required"><p class="text-danger">Este campo es requerido.</p></div>
-                                    <div class="error" v-if="!$v.objetivoproceso.maxLength"><p class="text-danger">Este campo tiene un máximo de 450 caracteres.</p></div>
+                                    <input v-model.trim="$v.formindicador.$model" type="text" class="form-control" placeholder="ej: Número de cursos y congresos a los que se asistió">
+                                    <!-- Mostrar validaciones de campo Fórmula del indicador -->
+                                    <div class="error" v-if="!$v.formindicador.required"><p class="text-danger">Este campo es requerido.</p></div>
+                                    <div class="error" v-if="!$v.formindicador.maxLength"><p class="text-danger">Este campo tiene un máximo de 240 caracteres.</p></div>
                                 </div>
                             </div>
 
-                            <!-- Atención que da el proceso -->
-                            <div class="form-group row" :class="{ 'form-group row--error': $v.pideatencion.$error }">
-                                <label for="text-input" class="col-md-3 form-control-label">Atención</label>
+                            <!-- Fecha cumplimiento -->
+                            <div class="form-group row" :class="{ 'form-group row--error': $v.fechacumpli.$error }">
+                                <label for="text-input" class="col-md-3 form-control-label">Fecha Cumplimto</label>
                                 <div class="col-md-9">
-                                    <input v-model.trim="$v.pideatencion.$model" type="text" class="form-control" placeholder="Programa, proceso o proyecto del pide">
-                                    <!-- Mostrar validaciones de campo Atención -->
-                                    <div class="error" v-if="!$v.pideatencion.required"><p class="text-danger">Este campo es requerido.</p></div>
-                                    <div class="error" v-if="!$v.pideatencion.maxLength"><p class="text-danger">Este campo tiene un máximo de 200 caracteres.</p></div>
+                                    <input v-model.trim="$v.fechacumpli.$model" type="date" class="form-control">
+                                    <!-- Mostrar validaciones de campo Fecha cumplimiento -->
+                                    <div class="error" v-if="!$v.fechacumpli.required"><p class="text-danger">Este campo es requerido.</p></div>
                                 </div>
                             </div>
 
-                             <!-- Problemática -->
-                            <div class="form-group row" :class="{ 'form-group row--error': $v.problematica.$error }">
-                                <label for="text-input" class="col-md-3 form-control-label">Problemática</label>
+                            <!-- Nivel actual -->
+                            <div class="form-group row" :class="{ 'form-group row--error': $v.nivelactual.$error }">
+                                <label for="text-input" class="col-md-3 form-control-label">Nivel actual(Núm)</label>
                                 <div class="col-md-9">
-                                    <textarea v-model.trim="$v.problematica.$model" class="form-control"></textarea>
-                                    <!-- Mostrar validaciones de campo Problemática -->
-                                    <div class="error" v-if="!$v.problematica.required"><p class="text-danger">Este campo es requerido.</p></div>
-                                    <div class="error" v-if="!$v.problematica.maxLength"><p class="text-danger">Este campo tiene un máximo de 600 caracteres.</p></div>
+                                    <input v-model.trim="$v.nivelactual.$model" type="number" class="form-control">
+                                    <!-- Mostrar validaciones de campo Nivel actual -->
+                                    <div class="error" v-if="!$v.nivelactual.maxValue"><p class="text-danger">Este campo tiene un valor máximo de 32767.</p></div>
+                                </div>
+                            </div>
+
+                            <!-- Meta a alcanzar -->
+                            <div class="form-group row" :class="{ 'form-group row--error': $v.metaalcanzar.$error }">
+                                <label for="text-input" class="col-md-3 form-control-label">Meta a alcanzar(Núm)</label>
+                                <div class="col-md-9">
+                                    <input v-model.trim="$v.metaalcanzar.$model" type="number" class="form-control">
+                                    <!-- Mostrar validaciones de campo Meta a alcanzar -->
+                                    <div class="error" v-if="!$v.metaalcanzar.required"><p class="text-danger">Este campo es requerido.</p></div>
+                                    <div class="error" v-if="!$v.metaalcanzar.maxValue"><p class="text-danger">Este campo tiene un valor máximo de 32767.</p></div>
+                                </div>
+                            </div>
+
+                            <!-- Primer avance -->
+                            <div class="form-group row" :class="{ 'form-group row--error': $v.primeroavance.$error }">
+                                <label for="text-input" class="col-md-3 form-control-label">1er avance(Núm)</label>
+                                <div class="col-md-9">
+                                    <input v-model.trim="$v.primeroavance.$model" type="number" class="form-control">
+                                    <!-- Mostrar validaciones de campo Primer avance -->
+                                    <div class="error" v-if="!$v.primeroavance.maxValue"><p class="text-danger">Este campo tiene un valor máximo de 32767.</p></div>
+                                </div>
+                            </div>
+
+                            <!-- Segundo avance -->
+                            <div class="form-group row" :class="{ 'form-group row--error': $v.segundoavance.$error }">
+                                <label for="text-input" class="col-md-3 form-control-label">2do avance(Núm)</label>
+                                <div class="col-md-9">
+                                    <input v-model.trim="$v.segundoavance.$model" type="number" class="form-control">
+                                    <!-- Mostrar validaciones de campo Segundo avance -->
+                                    <div class="error" v-if="!$v.segundoavance.maxValue"><p class="text-danger">Este campo tiene un valor máximo de 32767.</p></div>
+                                </div>
+                            </div>
+
+                            <!-- Tercer avance -->
+                            <div class="form-group row" :class="{ 'form-group row--error': $v.terceroavance.$error }">
+                                <label for="text-input" class="col-md-3 form-control-label">3er avance(Núm)</label>
+                                <div class="col-md-9">
+                                    <input v-model.trim="$v.terceroavance.$model" type="number" class="form-control">
+                                    <!-- Mostrar validaciones de campo Segundo avance -->
+                                    <div class="error" v-if="!$v.terceroavance.maxValue"><p class="text-danger">Este campo tiene un valor máximo de 32767.</p></div>
+                                </div>
+                            </div>
+
+                             <!-- Estrategia -->
+                            <div class="form-group row" :class="{ 'form-group row--error': $v.estrategia.$error }">
+                                <label for="text-input" class="col-md-3 form-control-label">Estrategia(s)</label>
+                                <div class="col-md-9">
+                                    <textarea v-model.trim="$v.estrategia.$model" class="form-control"></textarea>
+                                    <!-- Mostrar validaciones de campo Estrategia -->
+                                    <div class="error" v-if="!$v.estrategia.required"><p class="text-danger">Este campo es requerido.</p></div>
+                                    <div class="error" v-if="!$v.estrategia.maxLength"><p class="text-danger">Este campo tiene un máximo de 600 caracteres.</p></div>
                                 </div>
                             </div>
                         </div>
@@ -214,15 +249,19 @@
         data(){
             return{
                 //Declaración de variables para trabajar crud
-                datobasico_id: 0,
-                denoproceso: '',
-                numproceso: 0,
-                mejoraproceso: '',
-                arearesponsable: '',
-                objetivoproceso: '',
-                pideatencion: '',
-                problematica: '',
+                datoespecifico_id: 0,
+                datobasicos_id: 0,
+                denoindicador: '',
+                formindicador: '',
+                fechacumpli: '',
+                nivelactual: 0,
+                metaalcanzar: 0,
+                primeroavance: 0,
+                segundoavance: 0,
+                terceroavance: 0,
+                estrategia: '',
                 arrayDatos: [],//Variable tipo array para insertar datos
+                arrayDatobasicos: [],//Variable tipo array en el que se guarda el denoproceso(de la tabla dato_basicos) para llenar el select
                 modal: 0,
                 tituloModal: '',
                 tipoAccion: 0,
@@ -239,29 +278,37 @@
             }
         },
         validations: {
-            denoproceso: {
-                required,
-                maxLength: maxLength(240)
-            },
-            numproceso: {
-                maxValue: maxValue(32767)
-            },
-            mejoraproceso: {
+            datobasicos_id: {
                 required
             },
-            arearesponsable: {
+            denoindicador: {
                 required,
                 maxLength: maxLength(240)
             },
-            objetivoproceso: {
+            formindicador: {
                 required,
-                maxLength: maxLength(450)
+                maxLength: maxLength(240)
             },
-            pideatencion: {
+            fechacumpli: {
+                required
+            },
+            nivelactual: {
+                maxValue: maxValue(32767)
+            },
+            metaalcanzar: {
                 required,
-                maxLength: maxLength(200)
+                maxValue: maxValue(32767)
             },
-            problematica: {
+            primeroavance: {
+                maxValue: maxValue(32767)
+            },
+            segundoavance: {
+                maxValue: maxValue(32767)
+            },
+            terceroavance: {
+                maxValue: maxValue(32767)
+            },
+            estrategia: {
                 required,
                 maxLength: maxLength(600)
             },
@@ -298,10 +345,10 @@
             listarDatos(page){
                 let me = this;
                 //Se concatena a la url el número de página(page)
-                var url = '/datosBasicos?page=' + page;
+                var url = '/datosEspecificos?page=' + page;
                 axios.get(url).then(function(response) {
                     var respuesta = response.data;
-                    me.arrayDatos = respuesta.dato_basicos.data;
+                    me.arrayDatos = respuesta.dato_especificos.data;
                     me.pagination = respuesta.pagination;
                 })
                 .catch(function(error) {
@@ -327,60 +374,73 @@
                         switch(accion){
                             case "registrar":{
                                 this.modal = 1;
-                                this.tituloModal = 'Registrar Datos Básicos';
+                                this.tituloModal = 'Registrar Datos Específicos';
                                 this.tipoAccion = 1;
-                                this.denoproceso = '';
-                                this.numproceso = 0;
-                                this.mejoraproceso = '';
-                                this.arearesponsable = '';
-                                this.objetivoproceso = '';
-                                this.pideatencion = '';
-                                this.problematica = '';
+                                this.datobasicos_id = '';
+                                this.denoindicador = '';
+                                this.formindicador = '';
+                                this.fechacumpli = '';
+                                this.nivelactual = 0;
+                                this.metaalcanzar = '';
+                                this.primeroavance = 0;
+                                this.segundoavance = 0;
+                                this.terceroavance = 0;
+                                this.estrategia = '';
                                 break;
                             }
                             case "actualizar":{
                                 this.modal = 1;
-                                this.tituloModal = 'Actualizar Datos Básicos';
+                                this.tituloModal = 'Actualizar Datos Específicos';
                                 this.tipoAccion = 2;
-                                this.datobasico_id = data['id'];
-                                this.denoproceso = data['denoproceso'];
-                                this.numproceso = data['numproceso'];
-                                this.mejoraproceso = data['mejoraproceso'];
-                                this.arearesponsable = data['arearesponsable'];
-                                this.objetivoproceso = data['objetivoproceso'];
-                                this.pideatencion = data['pideatencion'];
-                                this.problematica = data['problematica'];
+                                this.datoespecifico_id = data['id'];
+                                this.datobasicos_id = data['datobasicos_id'];
+                                this.denoindicador = data['denoindicador'];
+                                this.formindicador = data['formindicador'];
+                                this.fechacumpli = data['fechacumpli'];
+                                this.nivelactual = data['nivelactual'];
+                                this.metaalcanzar = data['metaalcanzar'];
+                                this.primeroavance = data['primeroavance'];
+                                this.segundoavance = data['segundoavance'];
+                                this.terceroavance = data['terceroavance'];
+                                this.estrategia = data['estrategia'];
                                 break;
                             }
                         }
                     }
                 }
+                this.selectDatosbasicos();
             },
             /*Método encargado de cerrar un modal, se establecen las variables de registro
             vacias(string) o en ceros las que esperan valores numéricos*/
             cerrarModal(){
                 this.modal = 0;
                 this.tituloModal = '';
-                this.denoproceso = '';
-                this.numproceso = 0;
-                this.mejoraproceso = '';
-                this.arearesponsable = '';
-                this.objetivoproceso = '';
-                this.pideatencion = '';
-                this.problematica = '';
+                this.datobasicos_id = 0;
+                this.denoindicador = '';
+                this.formindicador = '';
+                this.fechacumpli = '';
+                this.nivelactual = 0;
+                this.metaalcanzar = 0;
+                this.primeroavance = 0;
+                this.segundoavance = 0;
+                this.terceroavance = 0;
+                this.estrategia = '';
             },  
             /*Método que contiene la logica para registrar desde la ventana modal*/
             registrarDatos(){
                 let me = this;
-                axios.post('/datosBasicos/registrar',{
+                axios.post('/datosEspecificos/registrar',{
                     /*se hace referencia al contenido que tienen los campos en ese momento*/
-                    'denoproceso': this.denoproceso,
-                    'numproceso': this.numproceso,
-                    'mejoraproceso': this.mejoraproceso,
-                    'arearesponsable': this.arearesponsable,
-                    'objetivoproceso': this.objetivoproceso,
-                    'pideatencion': this.pideatencion,
-                    'problematica': this.problematica
+                    'datobasicos_id': this.datobasicos_id,
+                    'denoindicador': this.denoindicador,
+                    'formindicador': this.formindicador,
+                    'fechacumpli': this.fechacumpli,
+                    'nivelactual': this.nivelactual,
+                    'metaalcanzar': this.metaalcanzar,
+                    'primeroavance': this.primeroavance,
+                    'segundoavance': this.segundoavance,
+                    'terceroavance': this.terceroavance,
+                    'estrategia': this.estrategia
                 }).then(function(response) {
                     //Referencia a la función cerrar modal
                     me.cerrarModal();
@@ -411,17 +471,20 @@
             /*Método que contiene la logica para actualizar desde la ventana modal*/
             actualizarDatos(){
                 let me = this;
-                axios.put('/datosBasicos/actualizar',{
+                axios.put('/datosEspecificos/actualizar',{
                     /*se hace referencia al id de la fila en la que se hizo clic en el botón 
                     editar y al contenido que tienen los campos en ese momento*/
-                    'id': this.datobasico_id,
-                    'denoproceso': this.denoproceso,
-                    'numproceso': this.numproceso,
-                    'mejoraproceso': this.mejoraproceso,
-                    'arearesponsable': this.arearesponsable,
-                    'objetivoproceso': this.objetivoproceso,
-                    'pideatencion': this.pideatencion,
-                    'problematica': this.problematica
+                    'id': this.datoespecifico_id,
+                    'datobasicos_id': this.datobasicos_id,
+                    'denoindicador': this.denoindicador,
+                    'formindicador': this.formindicador,
+                    'fechacumpli': this.fechacumpli,
+                    'nivelactual': this.nivelactual,
+                    'metaalcanzar': this.metaalcanzar,
+                    'primeroavance': this.primeroavance,
+                    'segundoavance': this.segundoavance,
+                    'terceroavance': this.terceroavance,
+                    'estrategia': this.estrategia
                 }).then(function(response) {
                     //Referencia a la función cerrar modal
                     me.cerrarModal();
@@ -473,7 +536,7 @@
                         let me = this;
                         /*se hace referencia al id de la fila en la que se hizo clic en el botón 
                         eliminar y se especifíca en la ruta el id a eliminar*/
-                        axios.delete('/datosBasicos/eliminar/'+id,{
+                        axios.delete('/datosEspecificos/eliminar/'+id,{
                             'id': id
                         }).then(function(response) {
                             //Referencia a la función listar
@@ -501,6 +564,17 @@
                         });
                     }
                 })
+            },
+             /*Método encargado de seleccionar una sociedad emisora en el select del formulario*/
+            selectDatosbasicos(){
+                let me = this;
+                axios.get('/selectDatosbasicos').then(function(response) {
+                    var respuesta = response.data;
+                    me.arrayDatobasicos = respuesta.dato_basicos;
+                })
+                .catch(function(error) {
+                    console.log(error);
+                });
             },
         },
         /*Se mandan a llamar en ese apartado el método listar para

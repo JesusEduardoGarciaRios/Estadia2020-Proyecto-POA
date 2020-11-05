@@ -7,7 +7,7 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
-
+// Imports para usar validaciones en modales
 import Vue from 'vue'
 import Vuelidate from 'vuelidate'
 Vue.use(Vuelidate)
@@ -25,6 +25,7 @@ Vue.use(Vuelidate)
 
 Vue.component('tablero', require('./components/Tablero.vue').default);
 Vue.component('datos-basicos', require('./components/DatosBasicos.vue').default);
+Vue.component('datos-especificos', require('./components/DatosEspecificos.vue').default);
 Vue.component('usuarios', require('./components/Usuarios.vue').default);
 
 /**

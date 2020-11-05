@@ -16,7 +16,7 @@ class CreateDatoBasicosTable extends Migration
         Schema::create('dato_basicos', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('denoproceso', 256);
-            $table->string('numproceso', 10)->nullable();
+            $table->smallInteger('numproceso')->nullable();
             $table->enum('mejoraproceso', ['Programa Educativo', 'Proceso de Gestión']);
             $table->string('arearesponsable', 200);
             $table->text('objetivoproceso');

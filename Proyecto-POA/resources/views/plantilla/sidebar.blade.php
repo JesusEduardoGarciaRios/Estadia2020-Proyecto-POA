@@ -55,7 +55,7 @@
                     <li @click="menu=2" class="nav-item">
                         <a href="#" class="nav-link">
                             <i class="far fa-circle nav-icon"></i>
-                            <p>Parte 2</p>
+                            <p>Datos Específicos</p>
                         </a>
                     </li>
                     <li @click="menu=3" class="nav-item">

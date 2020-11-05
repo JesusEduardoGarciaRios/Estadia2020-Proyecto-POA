@@ -12,5 +12,10 @@ class Datosbasicos extends Model
     protected $table = 'dato_basicos';
     // Se especifica los datos a que pertenecen a la tabla
     protected $fillable = ['denoproceso', 'numproceso',	'mejoraproceso', 'arearesponsable',
-    	                    'objetivoproceso', 'pideatencion', 'problematica'];
+                            'objetivoproceso', 'pideatencion', 'problematica'];
+    // Se define la relacion "tiene uno" con el modelo Datoespecificos
+    public function Datoespecificos()
+    {
+        return $this->hasOne('App\Models\Datosespecificos');
+    }
 }

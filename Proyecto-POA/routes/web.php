@@ -34,6 +34,19 @@ Route::put('/datosBasicos/actualizar', [App\Http\Controllers\DatosbasicosControl
 //Ruta que hace referencia a la función que contiene la lógica para eliminar datos basicos de un poa
 Route::delete('/datosBasicos/eliminar/{id}', [App\Http\Controllers\DatosbasicosController::class, 'destroy']);
 
+// --------------------Rutas de Datos Específicos de un POA--------------------\\
+//Ruta que hace referencia a la función encargada de mostrar contenido del data table
+Route::get('/datosEspecificos', [App\Http\Controllers\DatosespecificosController::class, 'index']);
+//Ruta que hace referencia a la función que contiene la lógica para registrar datos específicos de un poa
+Route::post('/datosEspecificos/registrar', [App\Http\Controllers\DatosespecificosController::class, 'store']);
+//Ruta que hace referencia a la función que contiene la lógica para actualizar datos específicos de un poa
+Route::put('/datosEspecificos/actualizar', [App\Http\Controllers\DatosespecificosController::class, 'update']);
+//Ruta que hace referencia a la función que contiene la lógica para eliminar datos específicos de un poa
+Route::delete('/datosEspecificos/eliminar/{id}', [App\Http\Controllers\DatosespecificosController::class, 'destroy']);
+/*Ruta que hace referencia a la función que contiene la lógica para seleccionar la Denominación del proceso 
+en el modal para registrar datos específicos de un poa*/
+Route::get('/selectDatosbasicos', [App\Http\Controllers\DatosespecificosController::class, 'selectDatosbasicos']);
+
 // --------------------Rutas de usuario--------------------\\
 //Ruta que hace referencia a la función encargada de mostrar contenido del data table
 Route::get('/usuario', [App\Http\Controllers\UserController::class, 'index']);

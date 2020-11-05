@@ -10,7 +10,7 @@
     </template>
     <!-- Menu 2 - Parte 2 POA -->
     <template v-if="menu==2">
-        <h1>Parte 2</h1>
+    <datos-especificos></datos-especificos>
     </template>
     <!-- Menu 3 - Parte 3 POA -->
     <template v-if="menu==3">
