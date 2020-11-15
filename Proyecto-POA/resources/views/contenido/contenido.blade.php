@@ -10,15 +10,19 @@
     </template>
     <!-- Menu 2 - Parte 2 POA -->
     <template v-if="menu==2">
-    <datos-especificos></datos-especificos>
+        <datos-especificos></datos-especificos>
     </template>
     <!-- Menu 3 - Parte 3 POA -->
     <template v-if="menu==3">
-        <h1>Parte 3</h1>
+        <calend-seguimtos></calend-seguimtos>
     </template>
     <!-- Menu 4 - Parte 4 POA -->
     <template v-if="menu==4">
-        <h1>Parte 4</h1>
+        <recursos-requeridos></recursos-requeridos>
+    </template>
+     <!-- Menu 4.4 - Partida Presupuestal POA -->
+     <template v-if="menu==4.4">
+        <partidas-presupuestales></partidas-presupuestales>
     </template>
     <!-- Menu 4.5 - Usuarios -->
     <template v-if="menu==4.5">

@@ -5,12 +5,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0 text-dark">Datos Específicos POA</h1>
+                    <h1 class="m-0 text-dark">Partidas Presupuestales</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Tablero</a></li>
-                        <li class="breadcrumb-item active">Listado de Datos Específicos POA</li>
+                        <li class="breadcrumb-item active">Listado de Partidas Presupuestales</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -27,7 +27,7 @@
                         <div class="card-header">
                             <h3 class="card-title">
                                 <i class="fas fa-list-alt"></i>&nbsp;
-                                Listado de Datos Específicos POA
+                                Listado de Partidas Presupuestales
                             </h3>
                             <div class="card-tools">
                                 <button @click="abrirModal('datos','registrar')" title="Agregar nuevo registro" type="button" 
@@ -41,31 +41,13 @@
                             <table class="table table-bordered table-hover">
                                 <thead class="thead-dark">
                                     <tr>
-                                        <th>Denominación</th>
-                                        <th>Denom. del indicador</th>
-                                        <th>Fórm. del indicador</th>
-                                        <th>Fecha cumplimiento</th>
-                                        <th>Meta actual</th>
-                                        <th>Meta a alcanzar</th>
-                                        <th>1.er avance</th>
-                                        <th>2.do avance</th>
-                                        <th>3.er avance</th>
-                                        <th>Estrategia</th>
+                                        <th>Partida Presupuestal</th>
                                         <th>Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr v-for="datos in arrayDatos" :key="datos.id">
-                                        <td v-text="datos.nombre_denoproceso"></td>
-                                        <td v-text="datos.denoindicador"></td>
-                                        <td v-text="datos.formindicador"></td>
-                                        <td v-text="datos.fechacumpli"></td>
-                                        <td v-text="datos.nivelactual"></td>
-                                        <td v-text="datos.metaalcanzar"></td>
-                                        <td v-text="datos.primeroavance"></td>
-                                        <td v-text="datos.segundoavance"></td>
-                                        <td v-text="datos.terceroavance"></td>
-                                        <td v-text="datos.estrategia"></td>
+                                        <td v-text="datos.partidapresu"></td>
                                         <td>
                                             <button @click="abrirModal('datos','actualizar',datos)" 
                                                 title="Editar" type="button" 
@@ -120,110 +102,14 @@
                 <div class="modal-body">
                     <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
                         <div class="card-body">
-                            <!-- Denominación del proceso -->
-                            <div class="form-group row" :class="{ 'form-group row--error': $v.datobasicos_id.$error }">
-                                <label for="text-input" class="col-md-3 form-control-label">Denominación</label>
+                            <!-- Partida presupuestal -->
+                            <div class="form-group row" :class="{ 'form-group row--error': $v.partidapresu.$error }">
+                                <label for="text-input" class="col-md-3 form-control-label">Núm. y nombre partida</label>
                                 <div class="col-md-9">
-                                    <select v-model.trim="$v.datobasicos_id.$model" class="form-control">
-                                        <option disabled value="">Seleccione una opción</option>
-                                        <option v-for="datobasicos in arrayDatobasicos" :key="datobasicos.id" :value="datobasicos.id" v-text="datobasicos.denoproceso"></option>
-                                    </select>
-                                    <!-- Mostrar validaciones de campo Denominación del indicador -->
-                                    <div class="error" v-if="!$v.datobasicos_id.required"><p class="text-danger">Este campo debe tener una opción.</p></div>
-                                </div>
-                            </div>
-
-                            <!-- Denominación del indicador -->
-                            <div class="form-group row" :class="{ 'form-group row--error': $v.denoindicador.$error }">
-                                <label for="text-input" class="col-md-3 form-control-label">Denominación del indicador</label>
-                                <div class="col-md-9">
-                                    <input v-model.trim="$v.denoindicador.$model" type="text" class="form-control" placeholder="ej: Cursos y congresos">
-                                    <!-- Mostrar validaciones de campo Denominación del indicador -->
-                                    <div class="error" v-if="!$v.denoindicador.required"><p class="text-danger">Este campo es requerido.</p></div>
-                                    <div class="error" v-if="!$v.denoindicador.maxLength"><p class="text-danger">Este campo tiene un máximo de 240 caracteres.</p></div>
-                                </div>
-                            </div>
-
-                            <!-- Fórmula del indicador -->
-                            <div class="form-group row" :class="{ 'form-group row--error': $v.formindicador.$error }">
-                                <label for="text-input" class="col-md-3 form-control-label">Fórmula del indicador</label>
-                                <div class="col-md-9">
-                                    <input v-model.trim="$v.formindicador.$model" type="text" class="form-control" placeholder="ej: Número de cursos y congresos a los que se asistió">
-                                    <!-- Mostrar validaciones de campo Fórmula del indicador -->
-                                    <div class="error" v-if="!$v.formindicador.required"><p class="text-danger">Este campo es requerido.</p></div>
-                                    <div class="error" v-if="!$v.formindicador.maxLength"><p class="text-danger">Este campo tiene un máximo de 240 caracteres.</p></div>
-                                </div>
-                            </div>
-
-                            <!-- Fecha cumplimiento -->
-                            <div class="form-group row" :class="{ 'form-group row--error': $v.fechacumpli.$error }">
-                                <label for="text-input" class="col-md-3 form-control-label">Fecha Cumplimto</label>
-                                <div class="col-md-9">
-                                    <input v-model.trim="$v.fechacumpli.$model" type="date" class="form-control">
-                                    <!-- Mostrar validaciones de campo Fecha cumplimiento -->
-                                    <div class="error" v-if="!$v.fechacumpli.required"><p class="text-danger">Este campo es requerido.</p></div>
-                                </div>
-                            </div>
-
-                            <!-- Nivel actual -->
-                            <div class="form-group row" :class="{ 'form-group row--error': $v.nivelactual.$error }">
-                                <label for="text-input" class="col-md-3 form-control-label">Nivel actual(Núm)</label>
-                                <div class="col-md-9">
-                                    <input v-model.trim="$v.nivelactual.$model" type="number" class="form-control">
-                                    <!-- Mostrar validaciones de campo Nivel actual -->
-                                    <div class="error" v-if="!$v.nivelactual.maxValue"><p class="text-danger">Este campo tiene un valor máximo de 32767.</p></div>
-                                </div>
-                            </div>
-
-                            <!-- Meta a alcanzar -->
-                            <div class="form-group row" :class="{ 'form-group row--error': $v.metaalcanzar.$error }">
-                                <label for="text-input" class="col-md-3 form-control-label">Meta a alcanzar(Núm)</label>
-                                <div class="col-md-9">
-                                    <input v-model.trim="$v.metaalcanzar.$model" type="number" class="form-control">
-                                    <!-- Mostrar validaciones de campo Meta a alcanzar -->
-                                    <div class="error" v-if="!$v.metaalcanzar.required"><p class="text-danger">Este campo es requerido.</p></div>
-                                    <div class="error" v-if="!$v.metaalcanzar.maxValue"><p class="text-danger">Este campo tiene un valor máximo de 32767.</p></div>
-                                </div>
-                            </div>
-
-                            <!-- Primer avance -->
-                            <div class="form-group row" :class="{ 'form-group row--error': $v.primeroavance.$error }">
-                                <label for="text-input" class="col-md-3 form-control-label">1er avance(Núm)</label>
-                                <div class="col-md-9">
-                                    <input v-model.trim="$v.primeroavance.$model" type="number" class="form-control">
-                                    <!-- Mostrar validaciones de campo Primer avance -->
-                                    <div class="error" v-if="!$v.primeroavance.maxValue"><p class="text-danger">Este campo tiene un valor máximo de 32767.</p></div>
-                                </div>
-                            </div>
-
-                            <!-- Segundo avance -->
-                            <div class="form-group row" :class="{ 'form-group row--error': $v.segundoavance.$error }">
-                                <label for="text-input" class="col-md-3 form-control-label">2do avance(Núm)</label>
-                                <div class="col-md-9">
-                                    <input v-model.trim="$v.segundoavance.$model" type="number" class="form-control">
-                                    <!-- Mostrar validaciones de campo Segundo avance -->
-                                    <div class="error" v-if="!$v.segundoavance.maxValue"><p class="text-danger">Este campo tiene un valor máximo de 32767.</p></div>
-                                </div>
-                            </div>
-
-                            <!-- Tercer avance -->
-                            <div class="form-group row" :class="{ 'form-group row--error': $v.terceroavance.$error }">
-                                <label for="text-input" class="col-md-3 form-control-label">3er avance(Núm)</label>
-                                <div class="col-md-9">
-                                    <input v-model.trim="$v.terceroavance.$model" type="number" class="form-control">
-                                    <!-- Mostrar validaciones de campo Segundo avance -->
-                                    <div class="error" v-if="!$v.terceroavance.maxValue"><p class="text-danger">Este campo tiene un valor máximo de 32767.</p></div>
-                                </div>
-                            </div>
-
-                             <!-- Estrategia -->
-                            <div class="form-group row" :class="{ 'form-group row--error': $v.estrategia.$error }">
-                                <label for="text-input" class="col-md-3 form-control-label">Estrategia(s)</label>
-                                <div class="col-md-9">
-                                    <textarea v-model.trim="$v.estrategia.$model" class="form-control"></textarea>
-                                    <!-- Mostrar validaciones de campo Estrategia -->
-                                    <div class="error" v-if="!$v.estrategia.required"><p class="text-danger">Este campo es requerido.</p></div>
-                                    <div class="error" v-if="!$v.estrategia.maxLength"><p class="text-danger">Este campo tiene un máximo de 600 caracteres.</p></div>
+                                    <input v-model.trim="$v.partidapresu.$model" type="text" class="form-control" placeholder="ej: 383 - Congresos y convenciones">
+                                    <!-- Mostrar validaciones de campo Partida presupuestal -->
+                                    <div class="error" v-if="!$v.partidapresu.required"><p class="text-danger">Este campo es requerido.</p></div>
+                                    <div class="error" v-if="!$v.partidapresu.maxLength"><p class="text-danger">Este campo tiene un máximo de 240 caracteres.</p></div>
                                 </div>
                             </div>
                         </div>
@@ -249,19 +135,9 @@
         data(){
             return{
                 //Declaración de variables para trabajar crud
-                datoespecifico_id: 0,
-                datobasicos_id: 0,
-                denoindicador: '',
-                formindicador: '',
-                fechacumpli: '',
-                nivelactual: 0,
-                metaalcanzar: 0,
-                primeroavance: 0,
-                segundoavance: 0,
-                terceroavance: 0,
-                estrategia: '',
+                partidapresu_id: 0,
+                partidapresu: '',
                 arrayDatos: [],//Variable tipo array para insertar datos
-                arrayDatobasicos: [],//Variable tipo array en el que se guarda el denoproceso(de la tabla dato_basicos) para llenar el select
                 modal: 0,
                 tituloModal: '',
                 tipoAccion: 0,
@@ -278,39 +154,9 @@
             }
         },
         validations: {
-            datobasicos_id: {
-                required
-            },
-            denoindicador: {
+            partidapresu: {
                 required,
                 maxLength: maxLength(240)
-            },
-            formindicador: {
-                required,
-                maxLength: maxLength(240)
-            },
-            fechacumpli: {
-                required
-            },
-            nivelactual: {
-                maxValue: maxValue(32767)
-            },
-            metaalcanzar: {
-                required,
-                maxValue: maxValue(32767)
-            },
-            primeroavance: {
-                maxValue: maxValue(32767)
-            },
-            segundoavance: {
-                maxValue: maxValue(32767)
-            },
-            terceroavance: {
-                maxValue: maxValue(32767)
-            },
-            estrategia: {
-                required,
-                maxLength: maxLength(600)
             },
         },
         computed:{
@@ -345,10 +191,10 @@
             listarDatos(page){
                 let me = this;
                 //Se concatena a la url el número de página(page)
-                var url = '/datosEspecificos?page=' + page;
+                var url = '/partidasPresupuestales?page=' + page;
                 axios.get(url).then(function(response) {
                     var respuesta = response.data;
-                    me.arrayDatos = respuesta.dato_especificos.data;
+                    me.arrayDatos = respuesta.partida_presupuestales.data;
                     me.pagination = respuesta.pagination;
                 })
                 .catch(function(error) {
@@ -374,73 +220,36 @@
                         switch(accion){
                             case "registrar":{
                                 this.modal = 1;
-                                this.tituloModal = 'Registrar Datos Específicos';
+                                this.tituloModal = 'Registrar Partida Presupuestal';
                                 this.tipoAccion = 1;
-                                this.datobasicos_id = '';
-                                this.denoindicador = '';
-                                this.formindicador = '';
-                                this.fechacumpli = '';
-                                this.nivelactual = 0;
-                                this.metaalcanzar = '';
-                                this.primeroavance = 0;
-                                this.segundoavance = 0;
-                                this.terceroavance = 0;
-                                this.estrategia = '';
+                                this.partidapresu = '';
                                 break;
                             }
                             case "actualizar":{
                                 this.modal = 1;
-                                this.tituloModal = 'Actualizar Datos Específicos';
+                                this.tituloModal = 'Actualizar Partida Presupuestal';
                                 this.tipoAccion = 2;
-                                this.datoespecifico_id = data['id'];
-                                this.datobasicos_id = data['datobasicos_id'];
-                                this.denoindicador = data['denoindicador'];
-                                this.formindicador = data['formindicador'];
-                                this.fechacumpli = data['fechacumpli'];
-                                this.nivelactual = data['nivelactual'];
-                                this.metaalcanzar = data['metaalcanzar'];
-                                this.primeroavance = data['primeroavance'];
-                                this.segundoavance = data['segundoavance'];
-                                this.terceroavance = data['terceroavance'];
-                                this.estrategia = data['estrategia'];
+                                this.partidapresu_id = data['id'];
+                                this.partidapresu = data['partidapresu'];
                                 break;
                             }
                         }
                     }
                 }
-                this.selectDatosbasicos();
             },
             /*Método encargado de cerrar un modal, se establecen las variables de registro
             vacias(string) o en ceros las que esperan valores numéricos*/
             cerrarModal(){
                 this.modal = 0;
                 this.tituloModal = '';
-                this.datobasicos_id = 0;
-                this.denoindicador = '';
-                this.formindicador = '';
-                this.fechacumpli = '';
-                this.nivelactual = 0;
-                this.metaalcanzar = 0;
-                this.primeroavance = 0;
-                this.segundoavance = 0;
-                this.terceroavance = 0;
-                this.estrategia = '';
+                this.partidapresu = '';
             },  
             /*Método que contiene la logica para registrar desde la ventana modal*/
             registrarDatos(){
                 let me = this;
-                axios.post('/datosEspecificos/registrar',{
+                axios.post('/partidasPresupuestales/registrar',{
                     /*se hace referencia al contenido que tienen los campos en ese momento*/
-                    'datobasicos_id': this.datobasicos_id,
-                    'denoindicador': this.denoindicador,
-                    'formindicador': this.formindicador,
-                    'fechacumpli': this.fechacumpli,
-                    'nivelactual': this.nivelactual,
-                    'metaalcanzar': this.metaalcanzar,
-                    'primeroavance': this.primeroavance,
-                    'segundoavance': this.segundoavance,
-                    'terceroavance': this.terceroavance,
-                    'estrategia': this.estrategia
+                    'partidapresu': this.partidapresu,
                 }).then(function(response) {
                     //Referencia a la función cerrar modal
                     me.cerrarModal();
@@ -471,20 +280,11 @@
             /*Método que contiene la logica para actualizar desde la ventana modal*/
             actualizarDatos(){
                 let me = this;
-                axios.put('/datosEspecificos/actualizar',{
+                axios.put('/partidasPresupuestales/actualizar',{
                     /*se hace referencia al id de la fila en la que se hizo clic en el botón 
                     editar y al contenido que tienen los campos en ese momento*/
-                    'id': this.datoespecifico_id,
-                    'datobasicos_id': this.datobasicos_id,
-                    'denoindicador': this.denoindicador,
-                    'formindicador': this.formindicador,
-                    'fechacumpli': this.fechacumpli,
-                    'nivelactual': this.nivelactual,
-                    'metaalcanzar': this.metaalcanzar,
-                    'primeroavance': this.primeroavance,
-                    'segundoavance': this.segundoavance,
-                    'terceroavance': this.terceroavance,
-                    'estrategia': this.estrategia
+                    'id': this.partidapresu_id,
+                    'partidapresu': this.partidapresu,
                 }).then(function(response) {
                     //Referencia a la función cerrar modal
                     me.cerrarModal();
@@ -536,7 +336,7 @@
                         let me = this;
                         /*se hace referencia al id de la fila en la que se hizo clic en el botón 
                         eliminar y se especifíca en la ruta el id a eliminar*/
-                        axios.delete('/datosEspecificos/eliminar/'+id,{
+                        axios.delete('/partidasPresupuestales/eliminar/'+id,{
                             'id': id
                         }).then(function(response) {
                             //Referencia a la función listar
@@ -564,17 +364,6 @@
                         });
                     }
                 })
-            },
-             /*Método encargado de seleccionar una sociedad emisora en el select del formulario*/
-            selectDatosbasicos(){
-                let me = this;
-                axios.get('/selectDatosbasicos').then(function(response) {
-                    var respuesta = response.data;
-                    me.arrayDatobasicos = respuesta.dato_basicos;
-                })
-                .catch(function(error) {
-                    console.log(error);
-                });
             },
         },
         /*Se mandan a llamar en ese apartado el método listar para

@@ -19,4 +19,9 @@ class Datosespecificos extends Model
     {
         return $this->belongsTo('App\Models\Datosbasicos');
     }
+    // Se define la relacion "tiene uno" con el modelo Calendseguimtos
+    public function Calendseguimtos()
+    {
+        return $this->hasOne('App\Models\Calendseguimtos');
+    }
 }

@@ -65,7 +65,15 @@
                 </a>
                 
                 <!-- Sidebar -->
-                @include('plantilla.sidebar')
+                @if(Auth::guest())
+                    @include('sidebars.sidebar')
+                    @elseif(Auth::check())
+                        @if(Auth::user()->rol == 'Administrador')
+                            @include('sidebars.sidebarAdmin')
+                        @elseif(Auth::user()->rol == 'Trabajador')
+                            @include('sidebars.sidebarTrabajador')
+                    @endif
+                @endif
                 <!-- /.sidebar -->
             </aside>
 

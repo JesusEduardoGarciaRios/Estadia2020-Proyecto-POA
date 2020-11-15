@@ -26,6 +26,9 @@ Vue.use(Vuelidate)
 Vue.component('tablero', require('./components/Tablero.vue').default);
 Vue.component('datos-basicos', require('./components/DatosBasicos.vue').default);
 Vue.component('datos-especificos', require('./components/DatosEspecificos.vue').default);
+Vue.component('calend-seguimtos', require('./components/CalendSeguimtos.vue').default);
+Vue.component('recursos-requeridos', require('./components/RecursosRequeridos.vue').default);
+Vue.component('partidas-presupuestales', require('./components/PartidasPresupuestales.vue').default);
 Vue.component('usuarios', require('./components/Usuarios.vue').default);
 
 /**

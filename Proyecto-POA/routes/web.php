@@ -47,6 +47,45 @@ Route::delete('/datosEspecificos/eliminar/{id}', [App\Http\Controllers\Datosespe
 en el modal para registrar datos específicos de un poa*/
 Route::get('/selectDatosbasicos', [App\Http\Controllers\DatosespecificosController::class, 'selectDatosbasicos']);
 
+// -------------Rutas de Calendarizacion y Seguimiento de las principales actividades de un POA-----------------\\
+//Ruta que hace referencia a la función encargada de mostrar contenido del data table
+Route::get('/calendSeguimtos', [App\Http\Controllers\CalendseguimtosController::class, 'index']);
+//Ruta que hace referencia a la función que contiene la lógica para registrar datos específicos de un poa
+Route::post('/calendSeguimtos/registrar', [App\Http\Controllers\CalendseguimtosController::class, 'store']);
+//Ruta que hace referencia a la función que contiene la lógica para actualizar datos específicos de un poa
+Route::put('/calendSeguimtos/actualizar', [App\Http\Controllers\CalendseguimtosController::class, 'update']);
+//Ruta que hace referencia a la función que contiene la lógica para eliminar datos específicos de un poa
+Route::delete('/calendSeguimtos/eliminar/{id}', [App\Http\Controllers\CalendseguimtosController::class, 'destroy']);
+/*Ruta que hace referencia a la función que contiene la lógica para seleccionar la Denominación del proceso 
+en el modal para registrar datos específicos de un poa*/
+Route::get('/selectDatosespecificos', [App\Http\Controllers\CalendseguimtosController::class, 'selectDatosespecificos']);
+
+// -------------Rutas de Recursos Requeridos para el cumplimiento de las actividades de un POA-----------------\\
+//Ruta que hace referencia a la función encargada de mostrar contenido del data table
+Route::get('/recursosRequeridos', [App\Http\Controllers\RecursosrequeridosController::class, 'index']);
+//Ruta que hace referencia a la función que contiene la lógica para registrar recursos requeridos de un poa
+Route::post('/recursosRequeridos/registrar', [App\Http\Controllers\RecursosrequeridosController::class, 'store']);
+//Ruta que hace referencia a la función que contiene la lógica para actualizar recursos requeridos de un poa
+Route::put('/recursosRequeridos/actualizar', [App\Http\Controllers\RecursosrequeridosController::class, 'update']);
+//Ruta que hace referencia a la función que contiene la lógica para eliminar recursos requeridos de un poa
+Route::delete('/recursosRequeridos/eliminar/{id}', [App\Http\Controllers\RecursosrequeridosController::class, 'destroy']);
+/*Ruta que hace referencia a la función que contiene la lógica para seleccionar la Actividad 
+en el modal para registrar recursos requeridos de un poa*/
+Route::get('/selectActividad', [App\Http\Controllers\RecursosrequeridosController::class, 'selectActividad']);
+/*Ruta que hace referencia a la función que contiene la lógica para seleccionar la Partida presupuestal
+en el modal para registrar recursos requeridos de un poa*/
+Route::get('/selectPartidapresupuestal', [App\Http\Controllers\RecursosrequeridosController::class, 'selectPartidapresupuestal']);
+
+// ----------------------------------Rutas de Partidas Presupuestales-----------------------------------------------\\
+//Ruta que hace referencia a la función encargada de mostrar contenido del data table
+Route::get('/partidasPresupuestales', [App\Http\Controllers\PartidaspresupuestalesController::class, 'index']);
+//Ruta que hace referencia a la función que contiene la lógica para registrar Partidas presupuestales
+Route::post('/partidasPresupuestales/registrar', [App\Http\Controllers\PartidaspresupuestalesController::class, 'store']);
+//Ruta que hace referencia a la función que contiene la lógica para actualizar Partidas presupuestales
+Route::put('/partidasPresupuestales/actualizar', [App\Http\Controllers\PartidaspresupuestalesController::class, 'update']);
+//Ruta que hace referencia a la función que contiene la lógica para eliminar Partidas presupuestales
+Route::delete('/partidasPresupuestales/eliminar/{id}', [App\Http\Controllers\PartidaspresupuestalesController::class, 'destroy']);
+
 // --------------------Rutas de usuario--------------------\\
 //Ruta que hace referencia a la función encargada de mostrar contenido del data table
 Route::get('/usuario', [App\Http\Controllers\UserController::class, 'index']);

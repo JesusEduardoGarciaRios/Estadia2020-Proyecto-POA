@@ -20,7 +20,7 @@
                 <a href="#" class="d-block">{{ Auth::user()->rol }}</a>
             @endif
         </div>
-      </div>
+    </div>
     <!-- Sidebar Menu -->
     <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
@@ -61,16 +61,25 @@
                     <li @click="menu=3" class="nav-item">
                         <a href="#" class="nav-link">
                             <i class="far fa-circle nav-icon"></i>
-                            <p>Parte 3</p>
+                            <p>Seguimiento de Act</p>
                         </a>
                     </li>
                     <li @click="menu=4" class="nav-item">
                         <a href="#" class="nav-link">
                             <i class="far fa-circle nav-icon"></i>
-                            <p>Parte 4</p>
+                            <p>Recursos Requeridos</p>
                         </a>
                     </li>
                 </ul>
+            </li>
+            <!-- Registrar Partida -->
+            <li @click="menu=4.4" class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="nav-icon fas fa-list-ol"></i>
+                    <p>
+                        Partida Presupuestal
+                    </p>
+                </a>
             </li>
             <!-- Registrar Usuario -->
             <li @click="menu=4.5" class="nav-item">
@@ -90,6 +99,7 @@
                     </p>
                 </a>
             </li>
+            <div class="user-panel mt-3 pb-3 mb-3 d-flex"></div>
             @if (Auth::guest())
                 <!-- Boton iniciar sesión -->
                 <li class="nav-item">
