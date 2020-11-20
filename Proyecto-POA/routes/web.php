@@ -76,6 +76,11 @@ Route::get('/selectActividad', [App\Http\Controllers\RecursosrequeridosControlle
 en el modal para registrar recursos requeridos de un poa*/
 Route::get('/selectPartidapresupuestal', [App\Http\Controllers\RecursosrequeridosController::class, 'selectPartidapresupuestal']);
 
+// --------------------Rutas de Select general para descargar pdf--------------------\\
+//Ruta que hace referencia a la función encargada de mostrar contenido del data table
+Route::get('/selectGeneral', [App\Http\Controllers\DescargarPdfController::class, 'index']);
+Route::get('/selectGeneral/descargarPdf/{id}', [App\Http\Controllers\DescargarPdfController::class, 'descargarPdf'])->name('poa_pdf');
+
 // ----------------------------------Rutas de Partidas Presupuestales-----------------------------------------------\\
 //Ruta que hace referencia a la función encargada de mostrar contenido del data table
 Route::get('/partidasPresupuestales', [App\Http\Controllers\PartidaspresupuestalesController::class, 'index']);

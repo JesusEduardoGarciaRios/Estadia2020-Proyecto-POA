@@ -29,6 +29,7 @@ Vue.component('datos-especificos', require('./components/DatosEspecificos.vue').
 Vue.component('calend-seguimtos', require('./components/CalendSeguimtos.vue').default);
 Vue.component('recursos-requeridos', require('./components/RecursosRequeridos.vue').default);
 Vue.component('partidas-presupuestales', require('./components/PartidasPresupuestales.vue').default);
+Vue.component('poa-completo', require('./components/POACompleto.vue').default);
 Vue.component('usuarios', require('./components/Usuarios.vue').default);
 
 /**

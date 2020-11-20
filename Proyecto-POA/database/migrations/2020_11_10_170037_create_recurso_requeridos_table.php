@@ -21,6 +21,7 @@ class CreateRecursoRequeridosTable extends Migration
             $table->string('unidadmedida', 256);
             $table->smallInteger('cantidad');
             $table->decimal('costoaprox', 11, 2);
+            $table->unsignedBigInteger('user_id');
             $table->timestamps();
 
             $table->foreign('calendseguimtos_id')->references('id')->on('calend_seguimtos')

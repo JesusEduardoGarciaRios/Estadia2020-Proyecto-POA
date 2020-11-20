@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Datosbasicos;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class DatosbasicosController extends Controller
 {
@@ -11,10 +13,19 @@ class DatosbasicosController extends Controller
     public function index(Request $request)
     {
         if(!$request->ajax()) return redirect('/');
-        $datobasicos = Datosbasicos::select('dato_basicos.id', 'dato_basicos.denoproceso', 'dato_basicos.numproceso', 
-                            'dato_basicos.mejoraproceso', 'dato_basicos.arearesponsable', 'dato_basicos.objetivoproceso',
-                            'dato_basicos.pideatencion', 'dato_basicos.problematica')
-                            ->orderBy('dato_basicos.id', 'desc')->paginate(1);
+        if(Auth::user()->rol == 'Administrador'){
+            $datobasicos = Datosbasicos::select('dato_basicos.id', 'dato_basicos.denoproceso', 'dato_basicos.numproceso', 
+                                'dato_basicos.mejoraproceso', 'dato_basicos.arearesponsable', 'dato_basicos.objetivoproceso',
+                                'dato_basicos.pideatencion', 'dato_basicos.problematica')
+                                ->orderBy('dato_basicos.id', 'asc')->paginate(1);
+        }
+        if(Auth::user()->rol == 'Trabajador'){
+            $datobasicos = Datosbasicos::select('dato_basicos.id', 'dato_basicos.denoproceso', 'dato_basicos.numproceso', 
+                                'dato_basicos.mejoraproceso', 'dato_basicos.arearesponsable', 'dato_basicos.objetivoproceso',
+                                'dato_basicos.pideatencion', 'dato_basicos.problematica')
+                                ->where('user_id', Auth::user()->id)
+                                ->orderBy('dato_basicos.id', 'asc')->paginate(1);
+        }
         
         return [
             'pagination' => [
@@ -41,6 +52,7 @@ class DatosbasicosController extends Controller
         $datobasico->objetivoproceso = $request->objetivoproceso;
         $datobasico->pideatencion = $request->pideatencion;
         $datobasico->problematica = $request->problematica;
+        $datobasico->user_id = Auth::user()->id;
         $datobasico->save();
     }
 

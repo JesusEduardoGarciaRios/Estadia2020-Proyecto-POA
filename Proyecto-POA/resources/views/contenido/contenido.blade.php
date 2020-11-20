@@ -20,8 +20,12 @@
     <template v-if="menu==4">
         <recursos-requeridos></recursos-requeridos>
     </template>
-     <!-- Menu 4.4 - Partida Presupuestal POA -->
-     <template v-if="menu==4.4">
+     <!-- Menu 4.3 - POAs Completos -->
+     <template v-if="menu==4.3">
+        <poa-completo></poa-completo>
+    </template>
+    <!-- Menu 4.4 - Partida Presupuestal POA -->
+    <template v-if="menu==4.4">
         <partidas-presupuestales></partidas-presupuestales>
     </template>
     <!-- Menu 4.5 - Usuarios -->

@@ -25,6 +25,7 @@ class CreateDatoEspecificosTable extends Migration
             $table->smallInteger('segundoavance')->nullable();
             $table->smallInteger('terceroavance')->nullable();
             $table->text('estrategia');
+            $table->unsignedBigInteger('user_id');
             $table->timestamps();
 
             $table->foreign('datobasicos_id')->references('id')->on('dato_basicos')

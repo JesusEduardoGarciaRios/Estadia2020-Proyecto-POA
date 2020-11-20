@@ -22,6 +22,7 @@ class CreateDatoBasicosTable extends Migration
             $table->text('objetivoproceso');
             $table->string('pideatencion', 200);
             $table->text('problematica');
+            $table->unsignedBigInteger('user_id');
             $table->timestamps();
         });
     }

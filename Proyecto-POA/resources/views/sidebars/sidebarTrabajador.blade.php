@@ -72,6 +72,15 @@
                     </li>
                 </ul>
             </li>
+            <!-- POAs Completos -->
+            <li @click="menu=4.3" class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="nav-icon fas fa-check-circle"></i>
+                    <p>
+                        POAs Completos
+                    </p>
+                </a>
+            </li>
             <!-- Registrar Partida -->
             <li @click="menu=4.4" class="nav-item">
                 <a href="#" class="nav-link">

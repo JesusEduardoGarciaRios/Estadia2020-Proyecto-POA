@@ -27,6 +27,7 @@ class CreateCalendSeguimtosTable extends Migration
             $table->smallInteger('alc3')->nullable();
             $table->string('justificacion', 256)->nullable();
             $table->string('areaoperadora', 256);
+            $table->unsignedBigInteger('user_id');
             $table->timestamps();
 
             $table->foreign('datoespecificos_id')->references('id')->on('dato_especificos')

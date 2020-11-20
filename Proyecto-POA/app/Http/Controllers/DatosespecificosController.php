@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Datosespecificos;
 use App\Models\Datosbasicos;
+use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 
 class DatosespecificosController extends Controller
@@ -13,13 +14,23 @@ class DatosespecificosController extends Controller
     public function index(Request $request)
     {
         if(!$request->ajax()) return redirect('/');
-        $datoespecificos = Datosespecificos::join('dato_basicos', 'dato_especificos.datobasicos_id', '=', 'dato_basicos.id')
+        if(Auth::user()->rol == 'Administrador'){
+            $datoespecificos = Datosespecificos::join('dato_basicos', 'dato_especificos.datobasicos_id', '=', 'dato_basicos.id')
                             ->select('dato_especificos.id', 'dato_especificos.datobasicos_id', 'dato_especificos.denoindicador', 
                             'dato_especificos.formindicador', 'dato_especificos.fechacumpli', 'dato_especificos.nivelactual', 
                             'dato_especificos.metaalcanzar', 'dato_especificos.primeroavance', 'dato_especificos.segundoavance', 
                             'dato_especificos.terceroavance', 'dato_especificos.estrategia', 'dato_basicos.denoproceso as nombre_denoproceso')
-                            // ->where('users.rol', 'Trabajador')
-                            ->orderBy('dato_especificos.id', 'desc')->paginate(1);
+                            ->orderBy('dato_especificos.id', 'asc')->paginate(1);
+        }
+        if(Auth::user()->rol == 'Trabajador'){
+            $datoespecificos = Datosespecificos::join('dato_basicos', 'dato_especificos.datobasicos_id', '=', 'dato_basicos.id')
+                            ->select('dato_especificos.id', 'dato_especificos.datobasicos_id', 'dato_especificos.denoindicador',
+                            'dato_especificos.formindicador', 'dato_especificos.fechacumpli', 'dato_especificos.nivelactual', 
+                            'dato_especificos.metaalcanzar', 'dato_especificos.primeroavance', 'dato_especificos.segundoavance', 
+                            'dato_especificos.terceroavance', 'dato_especificos.estrategia', 'dato_basicos.denoproceso as nombre_denoproceso')
+                            ->where('dato_especificos.user_id', Auth::user()->id)
+                            ->orderBy('dato_especificos.id', 'asc')->paginate(1);
+        }
         
         return [
             'pagination' => [
@@ -49,6 +60,7 @@ class DatosespecificosController extends Controller
         $datoespecifico->segundoavance = $request->segundoavance;
         $datoespecifico->terceroavance = $request->terceroavance;
         $datoespecifico->estrategia = $request->estrategia;
+        $datoespecifico->user_id = Auth::user()->id;
         $datoespecifico->save();
     }
 
@@ -81,8 +93,15 @@ class DatosespecificosController extends Controller
     // Función que contiene la lógica para llenar el campo select datos basicos
     public function selectDatosbasicos(Request $request){
         if(!$request->ajax()) return redirect('/');
-        $datobasico = Datosbasicos::select('id','denoproceso')
+        if(Auth::user()->rol == 'Administrador'){
+            $datobasico = Datosbasicos::select('id','denoproceso')
                             ->from('dato_basicos')->get();
+        }
+        if(Auth::user()->rol == 'Trabajador'){
+            $datobasico = Datosbasicos::select('id','denoproceso')
+                            ->where('user_id', Auth::user()->id)
+                            ->from('dato_basicos')->get();
+        }
         return ['dato_basicos' => $datobasico];
     }
 }

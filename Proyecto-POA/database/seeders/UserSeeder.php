@@ -18,11 +18,17 @@ class UserSeeder extends Seeder
     {
         // Seeder para insertar usuario administrador
         DB::table('users')->insert([
-            'rol' => 'Administrador',
+            ['rol' => 'Administrador',
             'nombre' => 'Carlos Orozco García',
             'alias' => 'MC. Orozco',
             'email' => 'corozcog@upv.edu.mx',
-            'password' => Hash::make('admin')
+            'password' => Hash::make('admin')],
+
+            ['rol' => 'Trabajador',
+            'nombre' => 'Mariana Nallely Rodríguez',
+            'alias' => 'Lic. Mariana',
+            'email' => 'mrodriguezg@upv.edu.mx',
+            'password' => Hash::make('1234')]
         ]);
     }
 }
