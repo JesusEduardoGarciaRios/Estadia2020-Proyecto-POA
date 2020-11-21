@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Dompdf\Dompdf;
 use App\Models\Datosbasicos;
 use App\Models\Datosespecificos;
 use App\Models\Calendseguimtos;
@@ -17,12 +18,21 @@ class DescargarPdfController extends Controller
     // Función que muestra el contenido del data table
     public function index(Request $request)
     {
-        // if(!$request->ajax()) return redirect('/');
-        $selectgeneral = DB::table('dato_basicos')
+        if(!$request->ajax()) return redirect('/');
+        if(Auth::user()->rol == 'Administrador'){
+            $selectgeneral = DB::table('dato_basicos')
+            ->join('dato_especificos', 'dato_basicos.id', '=', 'dato_especificos.datobasicos_id')
+            ->select('dato_basicos.id', 'dato_basicos.denoproceso', 'dato_basicos.objetivoproceso', 'dato_especificos.denoindicador', 'dato_especificos.formindicador')
+            // ->where('dato_basicos.user_id', Auth::user()->id)
+            ->orderBy('dato_basicos.id', 'asc')->paginate(4);
+        }
+        if(Auth::user()->rol == 'Trabajador'){
+            $selectgeneral = DB::table('dato_basicos')
             ->join('dato_especificos', 'dato_basicos.id', '=', 'dato_especificos.datobasicos_id')
             ->select('dato_basicos.id', 'dato_basicos.denoproceso', 'dato_basicos.objetivoproceso', 'dato_especificos.denoindicador', 'dato_especificos.formindicador')
             ->where('dato_basicos.user_id', Auth::user()->id)
             ->orderBy('dato_basicos.id', 'asc')->paginate(4);
+        }
         return [
             'pagination' => [
                 'total'        => $selectgeneral->total(),
@@ -80,8 +90,8 @@ class DescargarPdfController extends Controller
                             ->select(DB::raw('SUM(costoaprox) as Total'))
                             ->where('dato_especificos.datobasicos_id', '=', $id)
                             ->get();
-
-        $pdf = \PDF::loadview('pdf.poapdf', ['datobasicos'=>$datobasicos, 'datoespecificos'=>$datoespecificos, 
+        // PDF::setOptions(['dpi' => 150, 'defaultFont' => 'sans-serif']);
+        $pdf = \PDF::loadView('pdf.poapdf', ['datobasicos'=>$datobasicos, 'datoespecificos'=>$datoespecificos, 
                                             'calendseguimtos'=>$calendseguimtos, 'recursorequeridos'=>$recursorequeridos, 'total'=>$total]);
         // Se establece horientación horizontal a las hojas del pdf
         // $pdf->setPaper('A4', 'landscape');
